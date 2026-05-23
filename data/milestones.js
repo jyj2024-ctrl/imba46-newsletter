@@ -1,7 +1,7 @@
 /* ============================================================
  *  경조사 데이터
  *  - 카테고리별로 분류된 동기 소식
- *  - category: "wedding" | "birth" | "funeral" | "promotion"
+ *  - category: "wedding" | "birth" | "birthday" | "funeral" | "promotion"
  *  - date: "YYYY-MM-DD" 또는 "YYYY-MM"
  *  - name, message는 자유롭게 수정
  * ============================================================ */
@@ -12,6 +12,7 @@ window.NEWSLETTER_DATA.milestones = {
   categories: [
     { id: "wedding",   label: "결혼",      labelEn: "Wedding"      },
     { id: "birth",     label: "출산",      labelEn: "New Arrival"  },
+    { id: "birthday",  label: "생일",      labelEn: "Birthday"     },
     { id: "promotion", label: "승진·이직", labelEn: "Career"       },
     { id: "funeral",   label: "부고",      labelEn: "In Memoriam"  }
   ],
