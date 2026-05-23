@@ -1085,10 +1085,17 @@
 /* ============================================================
  *                  RESPONSIVE
  * ============================================================ */
+
+/* Section anchor 점프 시 sticky 마스트헤드에 가리지 않게 */
+.section, .hero { scroll-margin-top: 70px; }
+
 @media (max-width: 900px) {
-  .hero__main { grid-template-columns: 1fr; gap: 36px; }
-  .hero__visual { max-width: 380px; }
-  .hero__bookmark { right: 0; }
+  .section { padding: clamp(56px, 8vw, 96px) var(--pad-page) clamp(40px, 6vw, 72px); }
+
+  .hero { padding-top: clamp(28px, 5vw, 56px); }
+  .hero__main { grid-template-columns: 1fr; gap: 32px; }
+  .hero__visual { max-width: 360px; }
+  .hero__bookmark { right: 4px; }
 
   .hero__stats { grid-template-columns: 1fr 1fr; }
   .hero__stats .stat:last-child { grid-column: 1 / -1; }
@@ -1124,20 +1131,102 @@
   }
 
   .article__head { grid-template-columns: 1fr; }
-  .article__cover { min-height: 220px; }
+  .article__cover { min-height: 200px; padding: 22px; }
+  .article__body { padding: 24px; }
   .article__num { font-size: 64px; }
+  .article__full-inner { padding: 0 24px 36px; }
 }
 
 @media (max-width: 600px) {
-  .section__head { gap: 16px; }
-  .hero__topline { font-size: 10px; gap: 10px; }
-  .hero__topline .hero__rule { display: none; }
-  .hero__title { font-size: clamp(36px, 11vw, 60px); }
+  .section__head { gap: 14px; align-items: center; }
+  .section__num {
+    width: 52px; height: 52px;
+    font-size: 22px;
+  }
+  .section__title { font-size: clamp(26px, 7vw, 34px); }
+  .section__sub { font-size: 13px; }
 
-  .footer__top { grid-template-columns: 1fr; }
+  /* Hero 토픽라인 — 작은 폭에서 가로 압축 */
+  .hero__topline {
+    font-size: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hero__topline .hero__rule { display: none; }
+  .hero__topline-pill { padding: 3px 9px; }
+
+  .hero__greet { font-size: clamp(28px, 8vw, 40px); }
+  .hero__title { font-size: clamp(36px, 10vw, 56px); }
+  .hero__lead { font-size: 14px; }
+  .hero__visual { max-width: min(320px, 78vw); }
+  .hero__stamp { padding: 16% 16%; }
+  .hero__stamp-num { font-size: clamp(96px, 30vw, 140px); }
+  .hero__stamp-class { font-size: 12px; }
+  .hero__bookmark { top: -6px; }
+  .hero__bookmark svg { width: 48px; height: 18px; }
+  .hero__bookmark .script { font-size: 16px; }
+
+  .hero__cta { gap: 14px; }
+  .hero__cta .btn { padding: 11px 18px; font-size: 13px; }
+
+  .hero__stats {
+    padding: 22px 20px;
+    border-radius: 18px;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 22px;
+  }
+  .stat__num { font-size: clamp(30px, 8vw, 42px); }
+  .stat__lab { font-size: 11px; }
+  .stat__lab em { font-size: 12px; }
+
+  /* Milestones */
+  .milestones-grid { gap: 12px; }
+  .milestone-card { padding: 22px; border-radius: 18px; }
+  .milestone-card__name { font-size: 18px; }
+  .filter-pill { padding: 7px 14px; font-size: 12px; }
+
+  /* Timeline */
+  .timeline__body { padding: 18px 20px; }
+  .timeline__title { font-size: 17px; }
+  .timeline__photo { aspect-ratio: 16 / 10; }
+
+  /* Upcoming */
+  .upcoming-grid { gap: 14px; }
+  .upcoming-card__head { padding: 18px 20px 14px; gap: 12px; }
+  .upcoming-card__cal { min-width: 60px; border-radius: 12px; }
+  .upcoming-card__day { font-size: 24px; }
+  .upcoming-card__body { padding: 14px 20px 16px; }
+  .upcoming-card__foot { padding: 12px 20px 18px; }
+  .upcoming-card__title { font-size: 16px; }
+
+  /* Articles */
+  .article { border-radius: 18px; }
+  .article__cover { min-height: 160px; padding: 20px; }
+  .article__body { padding: 22px 20px; }
+  .article__title { font-size: 22px; }
+  .article__subtitle { font-size: 15px; }
+  .article__num { font-size: 56px; }
+  .article__full-inner { padding: 0 20px 28px; }
+  .article__h3 { font-size: 19px; }
+  .article__p { font-size: 15px; line-height: 1.75; }
+  .article__quote { font-size: 17px; padding: 14px 18px; }
+
+  /* Footer */
+  .footer { padding-top: clamp(40px, 8vw, 60px); }
+  .footer__top { grid-template-columns: 1fr; gap: 20px; padding-bottom: 24px; margin-bottom: 24px; }
   .footer__next { text-align: left; }
-  .footer__list li { grid-template-columns: 1fr; }
+  .footer__brand .brand__mark { width: 38px; height: 38px; font-size: 18px; }
+  .footer__list li { grid-template-columns: 1fr; padding: 10px 0; gap: 4px; }
   .footer__list li a { grid-column: 1; }
+  .footer__bottom { flex-direction: column; gap: 4px; }
+}
+
+/* 매우 좁은 폭 (320~360px) */
+@media (max-width: 380px) {
+  .hero__title { font-size: clamp(34px, 9.5vw, 48px); }
+  .hero__stats { grid-template-columns: 1fr; }
+  .hero__stats .stat:last-child { grid-column: auto; }
+  .filter-pill { padding: 6px 12px; font-size: 11px; }
 }
 
 /* Reduced motion */

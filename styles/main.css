@@ -54,7 +54,7 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -279,11 +279,77 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
 }
 
 /* ============================================================
+ *  MOBILE NAV — 모바일 전용 하단 점프 도크
+ * ============================================================ */
+.mobile-nav { display: none; }
+
+@media (max-width: 760px) {
+  .mobile-nav {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 5px;
+    background: rgba(26, 22, 20, 0.94);
+    color: var(--bg-soft);
+    border-radius: var(--radius-pill);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow:
+      0 1px 0 rgba(255,197,61,0.2) inset,
+      0 12px 32px -8px rgba(26,22,20,0.45);
+    max-width: calc(100vw - 28px);
+  }
+  .mobile-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 13px;
+    border-radius: var(--radius-pill);
+    color: var(--bg-soft);
+    font-size: 12px;
+    font-weight: 600;
+    transition: background .25s var(--ease-out), color .25s var(--ease-out);
+    white-space: nowrap;
+  }
+  .mobile-nav a .num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    opacity: 0.85;
+    letter-spacing: 0.02em;
+  }
+  .mobile-nav a:active,
+  .mobile-nav a.is-active {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .mobile-nav a:active .num,
+  .mobile-nav a.is-active .num {
+    color: var(--accent-ink);
+    opacity: 1;
+  }
+}
+
+/* ============================================================
  *  Responsive — masthead
  * ============================================================ */
 @media (max-width: 760px) {
-  .masthead { grid-template-columns: auto auto; gap: 12px; padding: 12px var(--pad-page); }
+  .masthead { grid-template-columns: auto 1fr; gap: 12px; padding: 12px var(--pad-page); }
   .masthead__nav { display: none; }
-  .masthead__meta { justify-self: end; }
+  .masthead__meta { justify-self: end; font-size: 11px; }
   .brand__text { font-size: 12px; }
+  .brand__mark { width: 26px; height: 26px; font-size: 14px; }
+
+  /* 모바일에서 nav 도크 위 여유 — 마지막 콘텐츠가 nav에 가리지 않게 */
+  body { padding-bottom: 72px; }
+}
+
+@media (max-width: 380px) {
+  .masthead__meta { display: none; }
+  .mobile-nav a { padding: 9px 10px; font-size: 11px; }
 }
