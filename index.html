@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,700&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet"
   />
   <link
@@ -33,14 +33,7 @@
   <!-- ============================================== -->
   <header class="masthead" id="top">
     <a class="masthead__brand" href="#top" aria-label="최상단으로">
-      <svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
-        <line x1="12" y1="1" x2="12" y2="6" stroke="currentColor" stroke-width="1.2"/>
-        <line x1="12" y1="18" x2="12" y2="23" stroke="currentColor" stroke-width="1.2"/>
-        <line x1="1" y1="12" x2="6" y2="12" stroke="currentColor" stroke-width="1.2"/>
-        <line x1="18" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="1.2"/>
-        <circle cx="12" cy="12" r="2.2" fill="currentColor"/>
-      </svg>
+      <span class="brand__mark" aria-hidden="true">46</span>
       <span class="brand__text">SKKU&nbsp;IMBA · <em>46th</em></span>
     </a>
 
@@ -64,54 +57,73 @@
     <!-- ============================================== -->
     <section class="hero">
       <div class="hero__topline">
-        <span>No.&nbsp;01</span>
+        <span class="hero__topline-pill">No.&nbsp;01</span>
+        <span>2026 · Spring / Summer Issue</span>
         <span class="hero__rule" aria-hidden="true"></span>
-        <span>2026 · SPRING / SUMMER ISSUE</span>
-        <span class="hero__rule" aria-hidden="true"></span>
-        <span>발행 2026.05.23</span>
+        <span>발행&nbsp;2026.05.23</span>
       </div>
 
       <div class="hero__main">
-        <h1 class="hero__title">
-          <span class="hero__line hero__line--ko">성균관대</span>
-          <span class="hero__line hero__line--big">
-            <em class="hero__imba">IMBA</em>
-            <span class="hero__num">46</span><span class="hero__gi">기</span>
-          </span>
-          <span class="hero__line hero__line--en"><em>Newsletter</em></span>
-        </h1>
-
-        <aside class="hero__cover">
-          <div class="cover-card">
-            <div class="cover-card__head">
-              <span class="cover-card__vol">Vol.&nbsp;01</span>
-              <svg viewBox="0 0 24 24" class="cover-card__arrow" aria-hidden="true">
-                <path d="M5 19 L19 5 M19 5 H8 M19 5 V16" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <div class="hero__copy">
+          <p class="hero__greet">
+            <span class="script">Hey there,</span>
+            <span class="hero__greet-wave" aria-hidden="true">👋</span>
+          </p>
+          <h1 class="hero__title">
+            <span class="hero__line">성균관대 IMBA</span>
+            <span class="hero__line hero__line--accent">46기 동기들!</span>
+          </h1>
+          <p class="hero__lead">
+            한 학기가 또 흘렀습니다.<br/>
+            입학 환영회의 떨림으로 시작해 — 벚꽃 아래 가족 야유회까지,<br/>
+            <em>46기의 아홉 달</em>을 한 호에 담았어요.
+          </p>
+          <div class="hero__cta">
+            <a class="btn" href="#milestones">
+              이번 호 한눈에 보기
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12 H19 M13 6 L19 12 L13 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-            </div>
-            <div class="cover-card__art">
-              <div class="cover-card__art-inner">
-                <span class="cover-card__art-tag">COVER</span>
-                <span class="cover-card__art-num">46</span>
-                <span class="cover-card__art-text"><em>Class of</em><br>Twenty&nbsp;Twenty&nbsp;Five</span>
-              </div>
-            </div>
-            <div class="cover-card__foot">
-              <span>2026.05</span>
-              <span>SKKU · 46th</span>
-            </div>
+            </a>
+            <a class="hero__cta-mail" href="mailto:imba46@example.com">운영진에 한마디 →</a>
           </div>
-          <div class="hero__bigmark" aria-hidden="true">⊕</div>
-        </aside>
-      </div>
+        </div>
 
-      <div class="hero__intro">
-        <p class="hero__lead">
-          한 학기가 또 흘렀습니다.<br />
-          입학 환영회의 떨림으로 시작해 — 벚꽃 아래 가족 야유회까지,<br />
-          <em>46기의 아홉 달</em>을 한 호에 담았습니다.
-        </p>
-        <p class="hero__sign">— 46기 운영위원회</p>
+        <aside class="hero__visual" aria-hidden="true">
+          <svg class="hero__brush" viewBox="0 0 460 460">
+            <defs>
+              <filter id="brush-shadow">
+                <feGaussianBlur stdDeviation="3"/>
+              </filter>
+            </defs>
+            <path
+              d="M68,238 C 38,128 138,32 252,46 C 376,62 432,158 412,254 C 396,338 312,402 208,392 C 102,382 50,328 56,242 C 60,200 64,196 68,238 Z"
+              fill="#FFC53D"
+              transform="rotate(-8 230 220)"
+            />
+            <path
+              d="M88,242 C 70,144 158,68 252,80 C 350,92 398,170 384,246 C 372,316 304,366 220,358 C 138,350 96,308 88,242 Z"
+              fill="#FFD66B"
+              transform="rotate(-8 230 220)"
+              opacity="0.7"
+            />
+          </svg>
+
+          <div class="hero__stamp">
+            <span class="hero__stamp-vol">Vol.&nbsp;01</span>
+            <span class="hero__stamp-num">46</span>
+            <span class="hero__stamp-class"><em>Class of</em><br/>Twenty&nbsp;Twenty&nbsp;Five</span>
+            <span class="hero__stamp-date">2026.05 · SKKU&nbsp;IMBA</span>
+          </div>
+
+          <span class="hero__bookmark" aria-hidden="true">
+            <svg viewBox="0 0 80 30" preserveAspectRatio="none">
+              <path d="M4 12 C 22 4, 42 22, 60 8 L 70 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M62 4 L 70 16 L 56 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="script">올해 표지</span>
+          </span>
+        </aside>
       </div>
 
       <div class="hero__stats">
@@ -128,15 +140,6 @@
         <div class="stat">
           <span class="stat__num">02</span>
           <span class="stat__lab">기고 <em>Articles</em></span>
-        </div>
-      </div>
-
-      <div class="hero__ticker" aria-hidden="true">
-        <div class="hero__ticker-track">
-          <span><em>Newsletter</em> · 성균관대 IMBA 46기 · Vol. 01 ·</span>
-          <span><em>Newsletter</em> · 성균관대 IMBA 46기 · Vol. 01 ·</span>
-          <span><em>Newsletter</em> · 성균관대 IMBA 46기 · Vol. 01 ·</span>
-          <span><em>Newsletter</em> · 성균관대 IMBA 46기 · Vol. 01 ·</span>
         </div>
       </div>
     </section>
