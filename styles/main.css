@@ -1,0 +1,272 @@
+/* ============================================================
+ *  성균관대 IMBA 46기 Newsletter — Design System
+ *  - 컬러, 타이포, 공통 컴포넌트 정의
+ * ============================================================ */
+
+:root {
+  /* === Palette === */
+  --bg:           #F1ECDE;   /* 따뜻한 크림 — 종이 질감 */
+  --bg-elev:     #FBF7EC;   /* 카드/입체 영역 */
+  --bg-paper:    #FFFFFF;   /* 가장 밝은 카드 표면 */
+  --ink:         #0E0E0E;   /* 본문 */
+  --ink-soft:   #2E2E2E;
+  --ink-mute:   #6E6862;   /* 보조 텍스트 */
+  --ink-faint:  #A8A199;
+
+  --green:       #1B5E3F;   /* 메인 액센트 — 성균관대 그린 */
+  --green-deep:  #0E3A24;
+  --green-mid:   #2D7A55;
+  --green-pale:  #C4D4C9;
+  --green-haze:  #E7EEE8;
+
+  --gold:        #B58E4C;   /* 보조 액센트 — 거의 안 씀 */
+  --rose:        #B36A55;   /* 결혼 카테고리 */
+  --rose-pale:   #E8D4CB;
+
+  --line:        rgba(14,14,14,0.14);
+  --line-soft:   rgba(14,14,14,0.06);
+
+  /* === Type === */
+  --font-serif:  "Fraunces", "Noto Serif KR", Georgia, serif;
+  --font-sans:   "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                 "Malgun Gothic", system-ui, sans-serif;
+  --font-mono:   "JetBrains Mono", "SF Mono", "Consolas", monospace;
+
+  /* === Spacing === */
+  --pad-page:    clamp(20px, 4vw, 56px);
+  --max-w:       1240px;
+
+  /* === Motion === */
+  --ease-out:    cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-soft:   cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "ss02", "tnum";
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: none; }
+button { font: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
+img { display: block; max-width: 100%; height: auto; }
+
+::selection {
+  background: var(--green);
+  color: var(--bg-elev);
+}
+
+/* ---------- Helpers ---------- */
+em { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
+
+/* Decorative grain — extremely subtle paper texture */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(0,0,0,0.04) 0, transparent 0.5px),
+    radial-gradient(circle at 70% 60%, rgba(0,0,0,0.03) 0, transparent 0.5px),
+    radial-gradient(circle at 40% 80%, rgba(0,0,0,0.04) 0, transparent 0.6px);
+  background-size: 3px 3px, 5px 5px, 4px 4px;
+}
+
+/* ============================================================
+ *  MASTHEAD
+ * ============================================================ */
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 14px var(--pad-page);
+  background: rgba(241, 236, 222, 0.85);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.masthead__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.brand__mark {
+  width: 18px; height: 18px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+.brand__mark.large { width: 28px; height: 28px; }
+.brand__text { letter-spacing: 0.04em; }
+.brand__text em { color: var(--green); }
+
+.masthead__nav {
+  justify-self: center;
+  display: flex;
+  gap: 28px;
+  font-size: 13px;
+}
+.masthead__nav a {
+  position: relative;
+  padding: 6px 2px;
+  color: var(--ink);
+  transition: color .25s var(--ease-out);
+}
+.masthead__nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: 2px;
+  height: 1px;
+  background: var(--green);
+  transition: right .35s var(--ease-out);
+}
+.masthead__nav a:hover { color: var(--green); }
+.masthead__nav a:hover::after { right: 0; }
+
+.masthead__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+.masthead__meta .dot { color: var(--ink-faint); }
+
+/* ============================================================
+ *  SECTIONS — Common
+ * ============================================================ */
+.section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: clamp(72px, 10vw, 140px) var(--pad-page) clamp(56px, 8vw, 96px);
+  position: relative;
+}
+
+.section__head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: clamp(40px, 5vw, 64px);
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+.section__head-num {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.section__num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(56px, 9vw, 112px);
+  line-height: 0.85;
+  color: var(--green);
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144;
+}
+.section__num-bar {
+  display: inline-block;
+  width: 1px;
+  height: clamp(36px, 6vw, 64px);
+  background: var(--ink);
+  opacity: 0.5;
+}
+.section__title {
+  margin: 0 0 8px;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.section__sub {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-mute);
+  line-height: 1.5;
+}
+.section__sub em {
+  color: var(--green);
+  margin-right: 4px;
+}
+
+/* ============================================================
+ *  Reusable: Tag, Badge, Button
+ * ============================================================ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: var(--ink);
+  color: var(--bg-elev);
+  border-radius: 999px;
+  transition: transform .3s var(--ease-out), background .3s var(--ease-out);
+}
+.btn:hover {
+  background: var(--green);
+  transform: translateY(-1px);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.btn--ghost:hover {
+  background: var(--ink);
+  color: var(--bg-elev);
+}
+
+/* ============================================================
+ *  Responsive — masthead
+ * ============================================================ */
+@media (max-width: 760px) {
+  .masthead { grid-template-columns: auto auto; gap: 12px; padding: 12px var(--pad-page); }
+  .masthead__nav { display: none; }
+  .masthead__meta { justify-self: end; }
+  .brand__text { font-size: 12px; }
+}

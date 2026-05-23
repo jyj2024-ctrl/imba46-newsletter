@@ -1,0 +1,45 @@
+# ============================================================
+#  Netlify configuration — 성균관대 IMBA 46기 Newsletter
+#  정적 사이트이므로 빌드 스텝 없이 루트 디렉토리를 그대로 배포합니다.
+# ============================================================
+
+[build]
+  publish = "."
+  # No command needed — pure static site
+
+# --- Security headers ---------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# --- Caching: 데이터 파일은 자주 바뀌므로 짧게 ---
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+# --- Caching: HTML 도 캐시 짧게 (콘텐츠 업데이트 즉시 반영) ---
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+# --- Caching: 정적 자산은 길게 ---
+[[headers]]
+  for = "/styles/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/scripts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
