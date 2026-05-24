@@ -60,7 +60,85 @@
   }
 
   /* ============================================================
-   *  01 — Milestones
+   *  01 — Executive Team (집행부 소개)
+   * ============================================================ */
+  function renderExec() {
+    const root = document.querySelector("[data-exec]");
+    if (!root || !DATA.exec) return;
+
+    const { lead, departments } = DATA.exec;
+    const byId = Object.fromEntries(departments.map((d) => [d.id, d]));
+
+    // 기대표 → 기획부 + 총무부 / 부기대표 → 네트워크부 + 학술부
+    const groups = [
+      { leader: lead[0], children: [byId.plan, byId.finance] },
+      { leader: lead[1], children: [byId.network, byId.academic] }
+    ];
+
+    function buildLeadCard(p) {
+      return el("div", { class: "exec__lead-card" },
+        p.photo
+          ? el("div", { class: "exec__lead-photo" },
+              el("img", { src: p.photo, alt: p.name, loading: "lazy" })
+            )
+          : null,
+        el("div", { class: "exec__lead-text" },
+          el("span", { class: "exec__lead-role" }, p.role),
+          el("span", { class: "exec__lead-name" }, p.name)
+        ),
+        el("span", { class: "exec__lead-card-stamp" }, "46th")
+      );
+    }
+
+    function buildDeptCard(d) {
+      if (!d) return null;
+      const headBlock = d.head
+        ? el("div", { class: "exec__dept-headcard" },
+            d.head.photo
+              ? el("div", { class: "exec__dept-photo" },
+                  el("img", { src: d.head.photo, alt: d.head.name, loading: "lazy" })
+                )
+              : null,
+            el("div", { class: "exec__dept-headcard-text" },
+              el("span", { class: "exec__dept-headcard-role" }, "부장"),
+              el("span", { class: "exec__dept-headcard-name" }, d.head.name)
+            )
+          )
+        : null;
+
+      return el("div", { class: "exec__dept", dataset: { dept: d.id } },
+        el("div", { class: "exec__dept-head" },
+          el("span", { class: "exec__dept-label" }, d.label),
+          el("em", { class: "exec__dept-label-en" }, d.labelEn)
+        ),
+        headBlock,
+        el("ul", { class: "exec__dept-members" },
+          ...d.members.map((m) => el("li", null, m))
+        )
+      );
+    }
+
+    const tree = el("div", { class: "exec__tree" },
+      ...groups.map((g) =>
+        el("div", { class: "exec__group" },
+          buildLeadCard(g.leader),
+          el("div", { class: "exec__connector", "aria-hidden": "true" },
+            el("span", { class: "exec__conn-stem-top" }),
+            el("span", { class: "exec__conn-bar" }),
+            el("span", { class: "exec__conn-stem exec__conn-stem--left" }),
+            el("span", { class: "exec__conn-stem exec__conn-stem--right" })
+          ),
+          el("div", { class: "exec__children" },
+            ...g.children.map(buildDeptCard)
+          )
+        )
+      )
+    );
+    root.appendChild(tree);
+  }
+
+  /* ============================================================
+   *  03 — Milestones
    * ============================================================ */
   function renderMilestones() {
     const grid = document.querySelector("[data-milestones-grid]");
@@ -135,11 +213,16 @@
     const root = document.querySelector("[data-timeline]");
     if (!root || !DATA.eventsPast) return;
 
-    const sorted = [...DATA.eventsPast].sort((a, b) => (a.date < b.date ? 1 : -1));
+    const sorted = [...DATA.eventsPast].sort((a, b) => (a.date < b.date ? -1 : 1));
 
     sorted.forEach((ev) => {
       const photo = ev.image
-        ? el("div", { class: "timeline__photo timeline__photo--has-image" },
+        ? el("button", {
+              class: "timeline__photo timeline__photo--has-image",
+              type: "button",
+              "aria-label": ev.title + " 사진 크게 보기",
+              onclick: () => openLightbox(ev.image, ev.title)
+            },
             el("img", { src: ev.image, alt: ev.title, loading: "lazy" })
           )
         : el("div", { class: "timeline__photo" },
@@ -157,17 +240,35 @@
         el("span", { class: "timeline__tag" }, "#" + t)
       );
 
+      const titleChildren = [document.createTextNode(ev.title)];
+      if (ev.video) {
+        titleChildren.push(
+          el("button", {
+              class: "timeline__play-mini",
+              type: "button",
+              "aria-label": ev.title + " 영상 재생",
+              title: "영상 재생",
+              onclick: () => openVideoLightbox(ev.video, ev.title)
+            },
+            el("svg", {
+              viewBox: "0 0 24 24",
+              "aria-hidden": "true",
+              html: '<circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M10 8 L16 12 L10 16 Z" fill="#fff"/>'
+            })
+          )
+        );
+      }
+
       const item = el(
         "li", { class: "timeline__item" },
         el("div", { class: "timeline__date" },
-          el("span", { class: "timeline__date-day" }, dayDigits(ev.date)),
-          el("span", { class: "timeline__date-month" },
-            monthAbbr(ev.date) + " · " + parseDate(ev.date).year)
+          el("span", { class: "timeline__date-month" }, monthAbbr(ev.date)),
+          el("span", { class: "timeline__date-year" }, String(parseDate(ev.date).year))
         ),
         el("div", { class: "timeline__card" },
           photo,
           el("div", { class: "timeline__body" },
-            el("h3", { class: "timeline__title" }, ev.title),
+            el("h3", { class: "timeline__title" }, ...titleChildren),
             el("p", { class: "timeline__loc" }, ev.location),
             el("p", { class: "timeline__desc" }, ev.description),
             tags.length ? el("div", { class: "timeline__tags" }, ...tags) : null
@@ -179,61 +280,101 @@
   }
 
   /* ============================================================
-   *  03 — Upcoming Events
+   *  Lightbox
    * ============================================================ */
-  function renderUpcoming() {
-    const grid = document.querySelector("[data-upcoming-grid]");
-    if (!grid || !DATA.eventsUpcoming) return;
-
-    const STATUS_LABEL = {
-      open:   "신청 접수 중",
-      tba:    "추후 공지",
-      closed: "마감"
-    };
-
-    const sorted = [...DATA.eventsUpcoming].sort((a, b) => (a.date < b.date ? -1 : 1));
-
-    sorted.forEach((ev) => {
-      const d = parseDate(ev.date);
-      const statusClass = "upcoming-card__status upcoming-card__status--" + (ev.status || "tba");
-
-      const mailHref =
-        "mailto:" + (ev.rsvpEmail || "imba46@example.com") +
-        (ev.rsvpSubject ? "?subject=" + encodeURIComponent(ev.rsvpSubject) : "");
-
-      const card = el(
-        "article", { class: "upcoming-card" },
-        el("div", { class: "upcoming-card__head" },
-          el("div", { class: "upcoming-card__cal" },
-            el("span", { class: "upcoming-card__day" }, dayDigits(ev.date)),
-            el("span", { class: "upcoming-card__month" }, monthAbbr(ev.date) + " · " + d.year)
-          ),
-          el("div", { class: "upcoming-card__title-block" },
-            el("span", { class: statusClass }, STATUS_LABEL[ev.status] || "추후 공지"),
-            el("h3", { class: "upcoming-card__title" }, ev.title)
-          )
-        ),
-        el("div", { class: "upcoming-card__body" },
-          el("p", { class: "upcoming-card__loc" }, ev.location),
-          el("p", { class: "upcoming-card__desc" }, ev.description)
-        ),
-        el("div", { class: "upcoming-card__foot" },
-          el("a", {
-              class: "upcoming-card__rsvp",
-              href: mailHref
-            },
-            "참석 신청",
-            el("svg", {
-              viewBox: "0 0 24 24",
-              "aria-hidden": "true",
-              html: '<path d="M5 19 L19 5 M19 5 H8 M19 5 V16" fill="none" stroke="currentColor" stroke-width="1.8"/>'
-            })
-          )
-        )
-      );
-
-      grid.appendChild(card);
+  let lightboxEl = null;
+  function ensureLightbox() {
+    if (lightboxEl) return lightboxEl;
+    const img = el("img", { class: "lightbox__img", alt: "" });
+    const video = el("video", {
+      class: "lightbox__video",
+      controls: "",
+      playsinline: ""
     });
+    const videoError = el("div", { class: "lightbox__video-error" },
+      el("strong", null, "이 브라우저에서 재생할 수 없는 영상 형식입니다."),
+      el("p", null, "원본이 HEVC(H.265) 코덱으로 인코딩돼 있어 Chrome·Firefox에서는 영상이 표시되지 않습니다. H.264(MP4)로 변환해 같은 파일명으로 교체해주세요.")
+    );
+    video.addEventListener("error", () => {
+      lightboxEl.classList.add("lightbox--video-error");
+    });
+    video.addEventListener("loadeddata", () => {
+      if (video.videoWidth === 0) {
+        lightboxEl.classList.add("lightbox--video-error");
+      }
+    });
+    const caption = el("p", { class: "lightbox__caption" });
+    const closeBtn = el("button", {
+        class: "lightbox__close",
+        type: "button",
+        "aria-label": "닫기"
+      },
+      el("svg", {
+        viewBox: "0 0 24 24",
+        "aria-hidden": "true",
+        html: '<path d="M6 6 L18 18 M18 6 L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+      })
+    );
+    const stage = el("div", { class: "lightbox__stage" }, img, video, videoError, caption);
+
+    lightboxEl = el("div", {
+        class: "lightbox",
+        role: "dialog",
+        "aria-modal": "true",
+        "aria-hidden": "true"
+      },
+      closeBtn,
+      stage
+    );
+
+    lightboxEl.addEventListener("click", (e) => {
+      if (e.target === lightboxEl) closeLightbox();
+    });
+    closeBtn.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightboxEl.classList.contains("is-open")) {
+        closeLightbox();
+      }
+    });
+
+    document.body.appendChild(lightboxEl);
+    return lightboxEl;
+  }
+  function openLightbox(src, title) {
+    const lb = ensureLightbox();
+    lb.classList.remove("lightbox--video");
+    lb.querySelector(".lightbox__img").src = src;
+    lb.querySelector(".lightbox__img").alt = title || "";
+    lb.querySelector(".lightbox__caption").textContent = title || "";
+    const v = lb.querySelector(".lightbox__video");
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+    lb.classList.add("is-open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+  function openVideoLightbox(src, title) {
+    const lb = ensureLightbox();
+    lb.classList.add("lightbox--video");
+    lb.classList.remove("lightbox--video-error");
+    lb.querySelector(".lightbox__img").removeAttribute("src");
+    const v = lb.querySelector(".lightbox__video");
+    v.src = src;
+    v.load();
+    v.play().catch(() => {});
+    lb.querySelector(".lightbox__caption").textContent = title || "";
+    lb.classList.add("is-open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+  function closeLightbox() {
+    if (!lightboxEl) return;
+    const v = lightboxEl.querySelector(".lightbox__video");
+    if (v) { v.pause(); v.removeAttribute("src"); v.load(); }
+    lightboxEl.classList.remove("is-open");
+    lightboxEl.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
   }
 
   /* ============================================================
@@ -339,13 +480,182 @@
   }
 
   /* ============================================================
+   *  05 — Guestbook (46기에 전하는 메시지)
+   *  Firestore 컬렉션: "messages"
+   *  Doc: { name, message, passwordHash, createdAt, updatedAt? }
+   * ============================================================ */
+  async function sha256Hex(str) {
+    const buf = new TextEncoder().encode(str);
+    const digest = await crypto.subtle.digest("SHA-256", buf);
+    return Array.from(new Uint8Array(digest))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  function fmtTs(ts) {
+    if (!ts || !ts.toDate) return "";
+    const d = ts.toDate();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hh = String(d.getHours()).padStart(2, "0");
+    const mm = String(d.getMinutes()).padStart(2, "0");
+    return `${y}.${m}.${day} ${hh}:${mm}`;
+  }
+
+  function showStatus(msg, type) {
+    const node = document.querySelector("[data-guestbook-status]");
+    if (!node) return;
+    node.textContent = msg;
+    node.className = "guestbook-status" + (type ? " guestbook-status--" + type : "");
+    node.hidden = false;
+    if (type !== "error") {
+      setTimeout(() => { node.hidden = true; }, 3500);
+    }
+  }
+
+  function initGuestbook() {
+    const grid = document.querySelector("[data-messages-grid]");
+    const form = document.querySelector("[data-guestbook-form]");
+    if (!grid || !form) return;
+
+    const cfg = window.FIREBASE_CONFIG || {};
+    const configured = cfg.apiKey && cfg.projectId && cfg.appId;
+
+    if (!configured || typeof firebase === "undefined") {
+      form.hidden = true;
+      const hint = document.querySelector("[data-guestbook-hint]");
+      const status = document.querySelector("[data-guestbook-status]");
+      const msg = "방명록 기능을 사용하려면 Firebase 설정이 필요합니다. scripts/firebase-config.js 파일을 채워주세요.";
+      if (hint) hint.textContent = msg;
+      if (status) { status.textContent = msg; status.className = "guestbook-status guestbook-status--info"; status.hidden = false; }
+      return;
+    }
+
+    firebase.initializeApp(cfg);
+    const db = firebase.firestore();
+    const col = db.collection("messages");
+
+    function render(docs) {
+      grid.innerHTML = "";
+      if (docs.length === 0) {
+        grid.appendChild(el("p", { class: "guestbook-empty" }, "아직 남겨진 메시지가 없습니다. 첫 메시지를 남겨주세요."));
+        return;
+      }
+      docs.forEach((doc) => {
+        const d = doc.data();
+        const entry = el("article", { class: "msg-entry", dataset: { id: doc.id } },
+          el("header", { class: "msg-entry__head" },
+            el("span", { class: "msg-entry__from" }, d.name || "익명"),
+            el("span", { class: "msg-entry__time" },
+              fmtTs(d.createdAt) + (d.updatedAt ? " · 수정됨" : "")
+            )
+          ),
+          el("p", { class: "msg-entry__body" }, d.message || ""),
+          el("div", { class: "msg-entry__actions" },
+            el("button", {
+                type: "button",
+                class: "msg-entry__btn",
+                onclick: () => editMessage(doc.id, d)
+              }, "수정"),
+            el("button", {
+                type: "button",
+                class: "msg-entry__btn msg-entry__btn--danger",
+                onclick: () => deleteMessage(doc.id, d)
+              }, "삭제")
+          )
+        );
+        grid.appendChild(entry);
+      });
+    }
+
+    // 실시간 구독
+    col.orderBy("createdAt", "desc").onSnapshot(
+      (snap) => {
+        render(snap.docs);
+      },
+      (err) => {
+        console.error("Firestore 구독 오류:", err);
+        showStatus("메시지를 불러오지 못했습니다: " + err.message, "error");
+      }
+    );
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const name = String(fd.get("name") || "").trim();
+      const message = String(fd.get("message") || "").trim();
+      const password = String(fd.get("password") || "").trim();
+      if (!name || !message || !/^\d{4}$/.test(password)) return;
+
+      const submitBtn = form.querySelector("[data-guestbook-submit]");
+      submitBtn.disabled = true;
+      try {
+        const passwordHash = await sha256Hex(password);
+        await col.add({
+          name, message, passwordHash,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        form.reset();
+        showStatus("메시지가 등록되었습니다.", "ok");
+      } catch (err) {
+        console.error(err);
+        showStatus("등록 실패: " + err.message, "error");
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    async function editMessage(id, doc) {
+      const pw = window.prompt("수정하려면 작성 시 입력한 4자리 비밀번호를 입력해주세요.");
+      if (pw == null) return;
+      const hash = await sha256Hex(String(pw).trim());
+      if (hash !== doc.passwordHash) {
+        showStatus("비밀번호가 일치하지 않습니다.", "error");
+        return;
+      }
+      const next = window.prompt("새 메시지를 입력해주세요.", doc.message || "");
+      if (next == null) return;
+      const trimmed = next.trim();
+      if (!trimmed) return;
+      try {
+        await col.doc(id).update({
+          message: trimmed.slice(0, 300),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showStatus("메시지가 수정되었습니다.", "ok");
+      } catch (err) {
+        showStatus("수정 실패: " + err.message, "error");
+      }
+    }
+
+    async function deleteMessage(id, doc) {
+      const pw = window.prompt("삭제하려면 작성 시 입력한 4자리 비밀번호를 입력해주세요.");
+      if (pw == null) return;
+      const hash = await sha256Hex(String(pw).trim());
+      if (hash !== doc.passwordHash) {
+        showStatus("비밀번호가 일치하지 않습니다.", "error");
+        return;
+      }
+      if (!window.confirm("정말 삭제할까요?")) return;
+      try {
+        await col.doc(id).delete();
+        showStatus("메시지가 삭제되었습니다.", "ok");
+      } catch (err) {
+        showStatus("삭제 실패: " + err.message, "error");
+      }
+    }
+  }
+
+  /* ============================================================
    *  Init
    * ============================================================ */
   function init() {
-    renderMilestones();
+    renderExec();
     renderPastEvents();
-    renderUpcoming();
+    renderMilestones();
     renderArticles();
+    initGuestbook();
   }
 
   if (document.readyState === "loading") {
