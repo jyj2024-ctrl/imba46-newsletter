@@ -64,6 +64,7 @@ window.NEWSLETTER_DATA.eventsPast = [
     location: "[거북섬]",
     description: "중간고사의 긴장을 내려놓고 거북섬으로 떠난 1박 2일 MT. 첫째 날 밤하늘을 수놓은 불꽃놀이와 끝없이 이어진 게임, 이튿날의 골프 모임과 요트 투어까지 — 웃음과 추억이 끊이지 않은 시간이었습니다.",
     image: "images/46기 MT.jpg",
+    video: "images/MT.mp4",
     tags: ["MT", "친목"]
   },
   {

@@ -34,6 +34,3 @@ verify-*.png
 
 # Dev debug screenshots at repo root (Playwright/manual captures)
 /*.png
-
-# GitHub 100MB 단일 파일 제한 초과 — 별도 호스팅 후 링크로 교체 예정
-images/MT.mp4
