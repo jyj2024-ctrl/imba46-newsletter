@@ -1420,6 +1420,74 @@ button.timeline__photo:focus-visible {
 }
 .lightbox__close svg { width: 18px; height: 18px; }
 
+/* --- Gallery navigation --- */
+.lightbox__img {
+  transition: opacity .18s var(--ease-out), transform .18s var(--ease-out);
+}
+.lightbox__img.is-leaving-left  { opacity: 0; transform: translateX(-24px); }
+.lightbox__img.is-leaving-right { opacity: 0; transform: translateX( 24px); }
+.lightbox__img.is-entering-left  { opacity: 0; transform: translateX( 24px); }
+.lightbox__img.is-entering-right { opacity: 0; transform: translateX(-24px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__img { transition: opacity .12s linear; transform: none !important; }
+  .lightbox__img.is-leaving-left,
+  .lightbox__img.is-leaving-right,
+  .lightbox__img.is-entering-left,
+  .lightbox__img.is-entering-right { transform: none; }
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background .2s var(--ease-out), transform .2s var(--ease-out);
+  z-index: 2;
+}
+.lightbox--has-nav .lightbox__nav { display: inline-flex; }
+.lightbox--video .lightbox__nav { display: none; }
+.lightbox__nav:hover {
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-50%) scale(1.06);
+}
+.lightbox__nav:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.lightbox__nav svg { width: 22px; height: 22px; }
+.lightbox__nav--prev { left: clamp(10px, 2vw, 24px); }
+.lightbox__nav--next { right: clamp(10px, 2vw, 24px); }
+
+.lightbox__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.lightbox__counter {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.6);
+}
+
+@media (max-width: 520px) {
+  .lightbox__nav { width: 40px; height: 40px; }
+  .lightbox__nav--prev { left: 8px; }
+  .lightbox__nav--next { right: 8px; }
+  .lightbox__nav svg { width: 18px; height: 18px; }
+}
+
 /* ============================================================
  *                    FOOTER
  * ============================================================ */
