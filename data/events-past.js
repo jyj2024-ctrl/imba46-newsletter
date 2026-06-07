@@ -8,19 +8,47 @@ window.NEWSLETTER_DATA = window.NEWSLETTER_DATA || {};
 
 window.NEWSLETTER_DATA.eventsPast = [
   {
+    date: "2026-02-05",
+    title: "집행부 첫 회식",
+    location: "[강남]",
+    description: "2026년 1학기 집행부 출범 이후 강남에서 가진 첫 공식 회식. 한 학기 동안 함께 꾸려갈 활동들을 머리 맞대 논의하고, 46기를 위해 어떤 마음으로 임할지 서로의 다짐을 나눈 시작의 자리였습니다.",
+    image: "images/집행부회식1.JPEG",
+    gallery: [
+      "images/집행부회식1.JPEG",
+      "images/집행부회식2.JPEG",
+      "images/집행부회식3.JPEG"
+    ],
+    tags: ["집행부", "회식"]
+  },
+  {
     date: "2026-02-01",
     title: "홍글세 (홍콩 여행)",
-    location: "홍콩",
+    location: "[홍콩]",
     description: "홍콩 김은정 원우의 따뜻한 환대 속에서 떠난 2박 3일의 여정. 빅토리아 피크의 야경부터 침사추이의 활기까지, 짧지만 빼곡하게 홍콩의 매력을 함께 느낀 시간이었습니다.",
     image: "images/홍글세(홍콩 여행).jpg",
+    gallery: [
+      "images/홍글세(홍콩 여행).jpg",
+      "images/홍글세(홍콩 여행)1.jpg",
+      "images/홍글세(홍콩 여행)2.jpg",
+      "images/홍글세(홍콩 여행)3.jpg",
+      "images/홍글세(홍콩 여행)4.jpg",
+      "images/홍글세(홍콩 여행)5.jpg"
+    ],
     tags: ["글로벌세미나", "홍콩"]
   },
   {
     date: "2026-02-21",
     title: "47기 OT",
-    location: "더플라자 호텔",
+    location: "[더플라자 호텔]",
     description: "더플라자 호텔에서 열린 47기 신입생 OT에 참석해 동연회 홍보와 축하 공연으로 새 식구들을 맞이했습니다. 행사 후에는 46기끼리 모여 단합의 뒷풀이로 늦은 밤까지 정을 나눴습니다.",
     image: "images/47기 OT.png",
+    gallery: [
+      "images/47기 OT.png",
+      "images/47기 OT2.png",
+      "images/47기 OT4.png",
+      "images/47기 OT4.JPEG",
+      "images/47기 OT5.JPEG"
+    ],
     tags: ["OT", "47기"]
   },
   {
@@ -29,24 +57,47 @@ window.NEWSLETTER_DATA.eventsPast = [
     location: "[느린마을]",
     description: "느린마을에 70여 명의 동기가 한자리에 모여 두 번째 학기의 시작을 함께 알렸습니다. 집행부 소개와 다양한 게임, 럭키드로우까지 이어진 알찬 프로그램 속에서 한 학기를 향한 설렘을 한껏 나눴습니다.",
     image: "images/개강총회.jpg",
+    gallery: [
+      "images/개강총회.jpg",
+      "images/개강총회1.JPEG",
+      "images/개강총회2.JPEG",
+      "images/개강총회3.JPEG",
+      "images/개강총회4.JPEG",
+      "images/개강총회5.JPEG"
+    ],
     video: "images/개강총회.MP4",
     tags: ["개강총회"]
   },
   {
     date: "2026-03-27",
     title: "북글세 (북경 여행)",
-    location: "북경",
+    location: "[북경]",
     description: "북경 윤정호 원우가 정성껏 마련한 글로벌 골프 세미나. 현지 기업 탐방으로 시야를 넓히고, 푸르른 페어웨이 위에서 라운딩과 진귀한 중국 요리까지 함께 즐긴 풍성한 여정이었습니다.",
     image: "images/북글세(북경 여행).jpg",
+    gallery: [
+      "images/북글세(북경 여행).jpg",
+      "images/북글세(북경 여행)1.jpg",
+      "images/북글세(북경 여행)2.jpg",
+      "images/북글세(북경 여행)3.jpg",
+      "images/북글세(북경 여행)4.jpg"
+    ],
     video: "images/북글세.mp4",
     tags: ["글로벌세미나", "북경"]
   },
   {
     date: "2026-03-28",
     title: "부글세 (부산 여행)",
-    location: "부산",
+    location: "[부산]",
     description: "영남 원우들의 안내로 떠난 부산 여행. 로컬 횟집에서의 첫 만남을 시작으로 영도 포차거리, 광안리 드론쇼, 송도 케이블카까지 — 짧은 일정 속에 부산의 낭만을 빼곡히 담아냈습니다.",
     image: "images/부글세(부산 여행).jpg",
+    gallery: [
+      "images/부글세(부산 여행).jpg",
+      "images/부글세(부산 여행)1.jpg",
+      "images/부글세(부산 여행)2.jpg",
+      "images/부글세(부산 여행)3.jpg",
+      "images/부글세(부산 여행)4.jpg",
+      "images/부글세(부산 여행)5.jpg"
+    ],
     video: "images/부글세.MP4",
     tags: ["국내세미나", "부산"]
   },
@@ -68,7 +119,11 @@ window.NEWSLETTER_DATA.eventsPast = [
       "images/46기 MT.jpg",
       "images/46기 MT2.JPEG",
       "images/46기 MT3.JPEG",
-      "images/46기 MT4.jpg"
+      "images/46기 MT4.jpg",
+      "images/46기 MT5.jpg",
+      "images/46기 MT6.jpg",
+      "images/46기 MT7.jpg",
+      "images/46기 MT8.jpg"
     ],
     video: "images/MT.mp4",
     tags: ["MT", "친목"]
@@ -79,6 +134,13 @@ window.NEWSLETTER_DATA.eventsPast = [
     location: "[46기 사랑방]",
     description: "46기 사랑방에서 진행된 위스키 입문 클래스. 강사님의 열정 가득한 강의와 함께 다양한 위스키를 직접 시음해보며, 왕초보 동기들에게도 잊지 못할 향긋한 한낮을 선사한 시간이었습니다.",
     image: "images/런치크런치(위스키 클래스).jpg",
+    gallery: [
+      "images/런치크런치(위스키 클래스).jpg",
+      "images/런치크런치(위스키 클래스)1.jpg",
+      "images/런치크런치(위스키 클래스)2.jpg",
+      "images/런치크런치(위스키 클래스)3.jpg",
+      "images/런치크런치(위스키 클래스)4.jpg"
+    ],
     tags: ["런치크런치", "위스키"]
   },
   {
@@ -92,9 +154,17 @@ window.NEWSLETTER_DATA.eventsPast = [
   {
     date: "2026-05-23",
     title: "여글세 (베트남 여행)",
-    location: "베트남",
+    location: "[베트남]",
     description: "호치민 손여울 원우의 가이드로 만난 베트남. 활기 넘치는 도시의 풍경과 풍성한 현지 음식, 따뜻한 환대 속에서 동기 간 우정을 한층 단단히 다진 글로벌 세미나였습니다.",
     image: "images/여글세(베트남 여행).jpg",
+    gallery: [
+      "images/여글세(베트남 여행).jpg",
+      "images/여글세(베트남 여행)1.jpg",
+      "images/여글세(베트남 여행)2.jpg",
+      "images/여글세(베트남 여행)3.jpg",
+      "images/여글세(베트남 여행)4.jpg"
+    ],
+    video: "images/여글세 (1).mp4",
     tags: ["글로벌세미나", "베트남"]
   },
   {
@@ -103,6 +173,12 @@ window.NEWSLETTER_DATA.eventsPast = [
     location: "[600주년 기념관]",
     description: "600주년 기념관에 44기부터 47기까지 한자리에 모인 총학 체육대회. 다양한 종목과 레크리에이션 속에 땀과 웃음이 어우러졌고, 기수를 넘어 하나로 어울린 뜨거운 시간을 함께 보냈습니다.",
     image: "images/총학 체육대회.jpg",
+    gallery: [
+      "images/총학 체육대회.jpg",
+      "images/총학 체육대회1.jpg",
+      "images/총학 체육대회2.jpg",
+      "images/총학 체육대회3.jpg"
+    ],
     tags: ["체육대회", "총학"]
   },
   {

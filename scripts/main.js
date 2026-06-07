@@ -174,21 +174,46 @@
       filterBar.appendChild(btn);
     });
 
-    // Card sort: newest first
-    const sorted = [...items].sort((a, b) => (a.date < b.date ? 1 : -1));
+    // Card sort: items with dates first (newest first), then dateless items
+    const sorted = [...items].sort((a, b) => {
+      const ad = a.date || "";
+      const bd = b.date || "";
+      if (!ad && !bd) return 0;
+      if (!ad) return 1;
+      if (!bd) return -1;
+      return ad < bd ? 1 : -1;
+    });
+
+    const ICONS = {
+      job: '<path d="M3.5 8h17v11.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 8V6.2A1.7 1.7 0 0 1 10.7 4.5h2.6A1.7 1.7 0 0 1 15 6.2V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3.5 12.5h17" stroke="currentColor" stroke-width="1.6"/>',
+      wedding: '<path d="M12 20.6s-6.6-4.2-6.6-9.7c0-2.5 2-4.4 4.3-4.4 1.3 0 2.5.7 3.3 1.8.8-1.1 2-1.8 3.3-1.8 2.3 0 4.3 1.9 4.3 4.4 0 5.5-6.6 9.7-6.6 9.7z" fill="currentColor"/>',
+      birth: '<rect x="8" y="9.5" width="8" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="9.8" y="4.5" width="4.4" height="3.6" rx="0.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 13h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9.5 16h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+    };
 
     sorted.forEach((item) => {
       const cat = categories.find((c) => c.id === item.category) || {};
+      const iconHtml = ICONS[item.category];
+      const badgeChildren = [];
+      if (iconHtml) {
+        badgeChildren.push(el("svg", {
+          class: "milestone-card__badge-icon",
+          viewBox: "0 0 24 24",
+          "aria-hidden": "true",
+          html: iconHtml
+        }));
+      }
+      badgeChildren.push(cat.label || item.category);
+
       const card = el(
         "article",
         { class: "milestone-card", dataset: { category: item.category } },
         el(
           "div", { class: "milestone-card__head" },
-          el("span", { class: "milestone-card__badge" }, cat.label || item.category),
-          el("time", { class: "milestone-card__date" }, formatDateKR(item.date))
+          el("span", { class: "milestone-card__badge" }, ...badgeChildren),
+          item.date ? el("time", { class: "milestone-card__date" }, formatDateKR(item.date)) : null
         ),
         el("h3", { class: "milestone-card__name" }, item.name),
-        el("p", { class: "milestone-card__msg" }, item.message)
+        item.message ? el("p", { class: "milestone-card__msg" }, item.message) : null
       );
       grid.appendChild(card);
     });
@@ -545,6 +570,19 @@
           const ul = el("ul", { class: "article__list" });
           (block.items || []).forEach((li) => ul.appendChild(el("li", null, li)));
           bodyInner.appendChild(ul);
+        } else if (block.type === "image") {
+          const fig = el("figure", { class: "article__figure" },
+            el("img", {
+              class: "article__image",
+              src: block.src,
+              alt: block.alt || "",
+              loading: "lazy"
+            })
+          );
+          if (block.caption) {
+            fig.appendChild(el("figcaption", { class: "article__caption" }, block.caption));
+          }
+          bodyInner.appendChild(fig);
         }
       });
       body.appendChild(bodyInner);
@@ -556,12 +594,19 @@
           el("div", { class: "article__cover" },
             el("div", { class: "article__number-row" },
               el("span", null, "Essay"),
-              el("span", null, art.date || "")
+              art.date ? el("span", null, art.date) : null
             ),
             el("div", { class: "article__num" }, art.number || ""),
+            (art.author || art.affiliation)
+              ? el("div", { class: "article__cover-byline" },
+                  el("span", { class: "article__cover-byline-label" }, "Written by"),
+                  art.author ? el("span", { class: "article__cover-author" }, art.author) : null,
+                  art.affiliation ? el("span", { class: "article__cover-affiliation" }, art.affiliation) : null
+                )
+              : null,
             el("div", { class: "article__cover-meta" },
               el("span", null, art.category || ""),
-              el("span", null, art.readingTime || "")
+              art.readingTime ? el("span", null, art.readingTime) : null
             )
           ),
           // Body (right)
@@ -572,12 +617,12 @@
             ),
             el("h3", { class: "article__title" }, art.title),
             el("p", { class: "article__subtitle" }, art.subtitle),
-            el("div", { class: "article__meta" },
-              el("span", { class: "article__meta-item article__author" }, art.author),
-              el("span", { class: "article__meta-item" }, art.affiliation),
-              el("span", { class: "article__meta-item" }, formatDateKR(art.date)),
-              el("span", { class: "article__meta-item" }, art.readingTime)
-            ),
+            (art.date || art.readingTime)
+              ? el("div", { class: "article__meta" },
+                  art.date ? el("span", { class: "article__meta-item" }, formatDateKR(art.date)) : null,
+                  art.readingTime ? el("span", { class: "article__meta-item" }, art.readingTime) : null
+                )
+              : null,
             el("p", { class: "article__excerpt" }, art.excerpt),
             (function () {
               const toggle = el("button", {
@@ -591,26 +636,52 @@
                   html: '<path d="M6 9 L12 15 L18 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'
                 })
               );
+              let openTransitionHandler = null;
+              const releaseMaxHeight = (e) => {
+                if (e && e.propertyName !== "max-height") return;
+                if (!article.classList.contains("is-open")) return;
+                body.style.maxHeight = "none";
+              };
+
               toggle.addEventListener("click", () => {
                 const open = article.classList.toggle("is-open");
                 toggle.setAttribute("aria-expanded", open ? "true" : "false");
                 toggle.querySelector(".article__toggle-label").textContent =
                   open ? "본문 접기" : "본문 펼치기";
+
+                if (openTransitionHandler) {
+                  body.removeEventListener("transitionend", openTransitionHandler);
+                  openTransitionHandler = null;
+                }
+
                 if (open) {
                   body.style.maxHeight = body.scrollHeight + "px";
+                  openTransitionHandler = releaseMaxHeight;
+                  body.addEventListener("transitionend", openTransitionHandler);
                 } else {
+                  // From "none" or px → first lock to current height for animation
                   body.style.maxHeight = body.scrollHeight + "px";
-                  // force reflow then collapse
-                  body.offsetHeight;
+                  body.offsetHeight; // force reflow
                   body.style.maxHeight = "0px";
                 }
               });
-              // Recalculate on resize while open
+
+              // Safety net: when lazy-loaded images inside the body finish loading
+              // while the card is open, re-release the max-height in case the
+              // browser had capped it before the image dimensions were known.
+              body.querySelectorAll("img").forEach((img) => {
+                img.addEventListener("load", () => {
+                  if (article.classList.contains("is-open")) {
+                    body.style.maxHeight = "none";
+                  }
+                });
+              });
+
+              // Recalculate on resize while open — keep it released so reflow
+              // can adjust naturally without a hard pixel cap.
               window.addEventListener("resize", () => {
                 if (article.classList.contains("is-open")) {
                   body.style.maxHeight = "none";
-                  const h = body.scrollHeight;
-                  body.style.maxHeight = h + "px";
                 }
               });
               return toggle;
@@ -621,6 +692,44 @@
       );
 
       list.appendChild(article);
+    });
+  }
+
+  /* ============================================================
+   *  04.5 — Leadership Messages (축사)
+   * ============================================================ */
+  function renderLeadershipMessages() {
+    const root = document.querySelector("[data-leadership-messages]");
+    if (!root || !DATA.leadershipMessages) return;
+
+    DATA.leadershipMessages.forEach((m) => {
+      const cover = el("div", { class: "leader-msg__cover" },
+        m.photo
+          ? el("img", { class: "leader-msg__photo", src: m.photo, alt: (m.name || "") + " 사진", loading: "lazy" })
+          : el("div", { class: "leader-msg__photo leader-msg__photo--empty", "aria-hidden": "true" },
+              el("svg", {
+                viewBox: "0 0 24 24",
+                html: '<circle cx="12" cy="9" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.6-3.4 4.7-5.4 8-5.4s6.4 2 8 5.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+              })
+            ),
+        el("div", { class: "leader-msg__role" },
+          el("span", { class: "leader-msg__role-ko" }, m.role || ""),
+          m.roleEn ? el("em", { class: "leader-msg__role-en" }, m.roleEn) : null
+        )
+      );
+
+      const body = el("div", { class: "leader-msg__body" },
+        el("span", { class: "leader-msg__quote-mark", "aria-hidden": "true" }, "“"),
+        el("p", { class: "leader-msg__text" }, m.body || ""),
+        el("div", { class: "leader-msg__sign" },
+          el("span", { class: "leader-msg__sign-rule", "aria-hidden": "true" }),
+          el("span", { class: "leader-msg__name" }, m.name || ""),
+          m.title ? el("span", { class: "leader-msg__title" }, m.title) : null
+        )
+      );
+
+      const card = el("article", { class: "leader-msg", dataset: { leaderId: m.id || "" } }, cover, body);
+      root.appendChild(card);
     });
   }
 
@@ -797,6 +906,7 @@
    * ============================================================ */
   function init() {
     renderExec();
+    renderLeadershipMessages();
     renderPastEvents();
     renderMilestones();
     renderArticles();

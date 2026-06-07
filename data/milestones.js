@@ -1,35 +1,32 @@
 /* ============================================================
  *  경조사 데이터
- *  - category: "birthday" | "wedding" | "birth"
- *  - date: "YYYY-MM-DD" 또는 "YYYY-MM"
+ *  - category: "job" | "wedding" | "birth"
+ *  - date: "YYYY-MM-DD" 또는 "YYYY-MM" (이직은 비워둘 수 있음)
+ *  - company: 이직 카테고리에서 사용 (옮긴 회사)
  * ============================================================ */
 
 window.NEWSLETTER_DATA = window.NEWSLETTER_DATA || {};
 
 window.NEWSLETTER_DATA.milestones = {
   categories: [
-    { id: "birthday", label: "생일", labelEn: "Birthday"    },
-    { id: "wedding",  label: "결혼", labelEn: "Wedding"     },
-    { id: "birth",    label: "출산", labelEn: "New Arrival" }
+    { id: "job",     label: "이직", labelEn: "Job Change"  },
+    { id: "wedding", label: "결혼", labelEn: "Wedding"     },
+    { id: "birth",   label: "출산", labelEn: "New Arrival" }
   ],
   items: [
-    {
-      category: "birthday",
-      date: "2026-05",
-      name: "[성함]",
-      message: "[생신 축하 메시지 — 동기 이름·생년월일·짧은 축하말]"
-    },
-    {
-      category: "wedding",
-      date: "2026-04",
-      name: "[성함]",
-      message: "[결혼 축하 메시지 — 결혼식 일자·장소·짧은 축사]"
-    },
-    {
-      category: "birth",
-      date: "2026-03",
-      name: "[성함]",
-      message: "[출산 축하 메시지 — 새 가족을 맞이한 동기에게]"
-    }
+    /* ───────── 이직 ───────── */
+    { category: "job", name: "지승열", company: "니어스랩",     date: "", message: "니어스랩으로 이직을 축하합니다" },
+    { category: "job", name: "김성원", company: "EQTY",         date: "", message: "EQTY로 이직을 축하합니다" },
+    { category: "job", name: "문재웅", company: "선그로우코리아", date: "", message: "선그로우코리아로 이직을 축하합니다" },
+    { category: "job", name: "홍성민", company: "코스알엑스",   date: "", message: "코스알엑스로 이직을 축하합니다" },
+    { category: "job", name: "김나영", company: "토스증권",     date: "", message: "토스증권으로 이직을 축하합니다" },
+    { category: "job", name: "박재완", company: "두산건설",     date: "", message: "두산건설로 이직을 축하합니다" },
+
+    /* ───────── 결혼 ───────── */
+    { category: "wedding", name: "박재완", date: "", message: "5월 16일 결혼을 축하합니다" },
+    { category: "wedding", name: "박충혁", date: "", message: "6월 28일 결혼을 축하합니다" },
+
+    /* ───────── 출산 ───────── */
+    { category: "birth", name: "문재웅", date: "", message: "1월에 첫째 공주님 출산을 축하합니다" }
   ]
 };

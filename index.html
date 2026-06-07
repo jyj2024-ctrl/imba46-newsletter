@@ -39,10 +39,11 @@
 
     <nav class="masthead__nav" aria-label="섹션 바로가기">
       <a href="#exec">01&nbsp;집행부</a>
-      <a href="#past-events">02&nbsp;회고</a>
-      <a href="#milestones">03&nbsp;경조사</a>
-      <a href="#articles">04&nbsp;기고</a>
-      <a href="#messages">05&nbsp;메시지</a>
+      <a href="#leadership">02&nbsp;축사</a>
+      <a href="#past-events">03&nbsp;회고</a>
+      <a href="#milestones">04&nbsp;경조사</a>
+      <a href="#articles">05&nbsp;기고</a>
+      <a href="#messages">06&nbsp;메시지</a>
     </nav>
 
     <div class="masthead__meta">
@@ -143,12 +144,32 @@
     </section>
 
     <!-- ============================================== -->
-    <!--           02 — 기수 행사 회고 (Past Events)     -->
+    <!--           02 — 축사 (Leadership Messages)       -->
+    <!-- ============================================== -->
+    <section id="leadership" class="section section--leadership">
+      <header class="section__head">
+        <div class="section__head-num">
+          <span class="section__num">02</span>
+          <span class="section__num-bar" aria-hidden="true"></span>
+        </div>
+        <div class="section__head-body">
+          <h2 class="section__title">축사</h2>
+          <p class="section__sub">
+            <em>Words from Leadership</em> — 기대표와 자문단 회장이 46기에 전하는 메시지
+          </p>
+        </div>
+      </header>
+
+      <div class="leader-msg-grid" data-leadership-messages></div>
+    </section>
+
+    <!-- ============================================== -->
+    <!--           03 — 기수 행사 회고 (Past Events)     -->
     <!-- ============================================== -->
     <section id="past-events" class="section section--past">
       <header class="section__head">
         <div class="section__head-num">
-          <span class="section__num">02</span>
+          <span class="section__num">03</span>
           <span class="section__num-bar" aria-hidden="true"></span>
         </div>
         <div class="section__head-body">
@@ -163,12 +184,12 @@
     </section>
 
     <!-- ============================================== -->
-    <!--           03 — 경조사 (Milestones)              -->
+    <!--           04 — 경조사 (Milestones)              -->
     <!-- ============================================== -->
     <section id="milestones" class="section section--milestones">
       <header class="section__head">
         <div class="section__head-num">
-          <span class="section__num">03</span>
+          <span class="section__num">04</span>
           <span class="section__num-bar" aria-hidden="true"></span>
         </div>
         <div class="section__head-body">
@@ -185,12 +206,12 @@
     </section>
 
     <!-- ============================================== -->
-    <!--           04 — 동기 기고 (Articles)             -->
+    <!--           05 — 동기 기고 (Articles)             -->
     <!-- ============================================== -->
     <section id="articles" class="section section--articles">
       <header class="section__head">
         <div class="section__head-num">
-          <span class="section__num">04</span>
+          <span class="section__num">05</span>
           <span class="section__num-bar" aria-hidden="true"></span>
         </div>
         <div class="section__head-body">
@@ -205,12 +226,12 @@
     </section>
 
     <!-- ============================================== -->
-    <!--           05 — 46기에 전하는 메시지 (Guestbook) -->
+    <!--           06 — 46기에 전하는 메시지 (Guestbook) -->
     <!-- ============================================== -->
     <section id="messages" class="section section--messages">
       <header class="section__head">
         <div class="section__head-num">
-          <span class="section__num">05</span>
+          <span class="section__num">06</span>
           <span class="section__num-bar" aria-hidden="true"></span>
         </div>
         <div class="section__head-body">
@@ -284,10 +305,11 @@
   <!-- Mobile bottom nav (760px 이하에서만 표시) -->
   <nav class="mobile-nav" aria-label="섹션 바로가기">
     <a href="#exec"><span class="num">01</span>집행부</a>
-    <a href="#past-events"><span class="num">02</span>회고</a>
-    <a href="#milestones"><span class="num">03</span>경조사</a>
-    <a href="#articles"><span class="num">04</span>기고</a>
-    <a href="#messages"><span class="num">05</span>메시지</a>
+    <a href="#leadership"><span class="num">02</span>축사</a>
+    <a href="#past-events"><span class="num">03</span>회고</a>
+    <a href="#milestones"><span class="num">04</span>경조사</a>
+    <a href="#articles"><span class="num">05</span>기고</a>
+    <a href="#messages"><span class="num">06</span>메시지</a>
   </nav>
 
   <!-- Decorative grain overlay -->
@@ -300,6 +322,7 @@
 
   <!-- Data (load order matters) -->
   <script src="data/exec.js"></script>
+  <script src="data/leadership-messages.js"></script>
   <script src="data/milestones.js"></script>
   <script src="data/events-past.js"></script>
   <script src="data/articles.js"></script>
