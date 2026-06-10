@@ -311,6 +311,7 @@
   let lightboxEl = null;
   let lbGallery = [];
   let lbIndex = 0;
+  let lbSwapTimer = null;
   let lbTitle = "";
   let lbPrevFocus = null;
   let lbTouchStartX = 0;
@@ -450,11 +451,22 @@
     if (!lbGallery.length) return;
     const n = lbGallery.length;
     const next = ((idx % n) + n) % n;
+    if (next === lbIndex && lightboxEl.querySelector(".lightbox__img").src) return;
     const img = lightboxEl.querySelector(".lightbox__img");
     const direction = next > lbIndex || (lbIndex === n - 1 && next === 0) ? "right" : "left";
+
+    // Cancel any in-flight swap from a previous rapid click so the new image
+    // appears immediately instead of waiting for the queued timeout.
+    if (lbSwapTimer) {
+      clearTimeout(lbSwapTimer);
+      lbSwapTimer = null;
+    }
+
     img.classList.remove("is-entering-left", "is-entering-right");
     img.classList.add(direction === "right" ? "is-leaving-left" : "is-leaving-right");
-    setTimeout(() => {
+
+    lbSwapTimer = setTimeout(() => {
+      lbSwapTimer = null;
       img.src = lbGallery[next];
       img.alt = lbTitle ? lbTitle + " (" + (next + 1) + "/" + n + ")" : "";
       img.classList.remove("is-leaving-left", "is-leaving-right");
@@ -462,7 +474,7 @@
       requestAnimationFrame(() => {
         img.classList.remove("is-entering-left", "is-entering-right");
       });
-    }, 160);
+    }, 70);
     lbIndex = next;
     updateLbCounter();
   }
@@ -734,6 +746,77 @@
   }
 
   /* ============================================================
+   *  04.7 — Sponsors (찬조)
+   * ============================================================ */
+  function renderSponsors() {
+    const root = document.querySelector("[data-sponsors]");
+    if (!root || !DATA.sponsors) return;
+
+    const { cash = [], inKind = [] } = DATA.sponsors;
+
+    const cashTotal = cash.reduce((sum, s) => sum + (s.amount || 0), 0);
+    const fmtKRW = (n) => new Intl.NumberFormat("ko-KR").format(n) + "원";
+
+    // ─── 현금 찬조 패널 ───────────────────────────────
+    const cashRows = cash.map((s) =>
+      el("li", { class: "sponsor-row" },
+        el("span", { class: "sponsor-row__name" }, s.name),
+        el("span", { class: "sponsor-row__sep", "aria-hidden": "true" }),
+        el("span", { class: "sponsor-row__value sponsor-row__value--amount" }, fmtKRW(s.amount || 0))
+      )
+    );
+    const cashPanel = el("article", { class: "sponsor-panel sponsor-panel--cash", dataset: { kind: "cash" } },
+      el("header", { class: "sponsor-panel__head" },
+        el("span", { class: "sponsor-panel__badge" },
+          el("svg", {
+            class: "sponsor-panel__icon",
+            viewBox: "0 0 24 24",
+            "aria-hidden": "true",
+            html: '<rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 9v6M17.5 9v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+          }),
+          el("span", { class: "sponsor-panel__label" }, "현금 찬조"),
+          el("span", { class: "sponsor-panel__label-en" }, "Cash")
+        ),
+        el("div", { class: "sponsor-panel__meta" },
+          el("span", { class: "sponsor-panel__count" }, cash.length + "건"),
+          el("span", { class: "sponsor-panel__total" }, "총 " + fmtKRW(cashTotal))
+        )
+      ),
+      el("ul", { class: "sponsor-list" }, ...cashRows)
+    );
+
+    // ─── 현물 찬조 패널 ───────────────────────────────
+    const inKindRows = inKind.map((s) =>
+      el("li", { class: "sponsor-row" },
+        el("span", { class: "sponsor-row__name" }, s.name),
+        el("span", { class: "sponsor-row__sep", "aria-hidden": "true" }),
+        el("span", { class: "sponsor-row__value sponsor-row__value--item" }, s.item || "")
+      )
+    );
+    const inKindPanel = el("article", { class: "sponsor-panel sponsor-panel--inkind", dataset: { kind: "inkind" } },
+      el("header", { class: "sponsor-panel__head" },
+        el("span", { class: "sponsor-panel__badge" },
+          el("svg", {
+            class: "sponsor-panel__icon",
+            viewBox: "0 0 24 24",
+            "aria-hidden": "true",
+            html: '<path d="M4 9h16v11.5a.5.5 0 0 1-.5.5h-15a.5.5 0 0 1-.5-.5V9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5V9H3V6.5z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 5v16" stroke="currentColor" stroke-width="1.6"/><path d="M12 5s-2.4-2.5-4-1.5C6.6 4.4 7.5 6.5 9.5 7c.8.2 2.5 0 2.5 0M12 5s2.4-2.5 4-1.5c1.4 1 .5 3-1.5 3.5-.8.2-2.5 0-2.5 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+          }),
+          el("span", { class: "sponsor-panel__label" }, "현물 찬조"),
+          el("span", { class: "sponsor-panel__label-en" }, "In-kind")
+        ),
+        el("div", { class: "sponsor-panel__meta" },
+          el("span", { class: "sponsor-panel__count" }, inKind.length + "건")
+        )
+      ),
+      el("ul", { class: "sponsor-list" }, ...inKindRows)
+    );
+
+    root.appendChild(cashPanel);
+    root.appendChild(inKindPanel);
+  }
+
+  /* ============================================================
    *  05 — Guestbook (46기에 전하는 메시지)
    *  Firestore 컬렉션: "messages"
    *  Doc: { name, message, passwordHash, createdAt, updatedAt? }
@@ -910,6 +993,7 @@
     renderPastEvents();
     renderMilestones();
     renderArticles();
+    renderSponsors();
     initGuestbook();
   }
 
