@@ -1297,6 +1297,19 @@ button.timeline__photo:focus-visible {
   color: var(--accent-ink);
   font-weight: 600;
 }
+.leader-msg__speaker-name {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.leader-msg__speaker-title {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
 
 .leader-msg__body {
   position: relative;
@@ -1384,6 +1397,8 @@ button.timeline__photo:focus-visible {
   .leader-msg__photo--empty svg { width: 40px; height: 40px; }
   .leader-msg__role { align-items: flex-start; text-align: left; }
   .leader-msg__role-ko { font-size: 18px; }
+  .leader-msg__speaker-name { font-size: 16px; }
+  .leader-msg__speaker-title { font-size: 11px; }
   .leader-msg__body { padding: 28px 24px 24px; }
   .leader-msg__quote-mark { font-size: 64px; top: 4px; left: 18px; }
   .leader-msg__text { font-size: 15px; margin: 10px 0 20px; }

@@ -726,18 +726,15 @@
             ),
         el("div", { class: "leader-msg__role" },
           el("span", { class: "leader-msg__role-ko" }, m.role || ""),
-          m.roleEn ? el("em", { class: "leader-msg__role-en" }, m.roleEn) : null
+          m.roleEn ? el("em", { class: "leader-msg__role-en" }, m.roleEn) : null,
+          m.name ? el("span", { class: "leader-msg__speaker-name" }, m.name) : null,
+          m.title ? el("span", { class: "leader-msg__speaker-title" }, m.title) : null
         )
       );
 
       const body = el("div", { class: "leader-msg__body" },
         el("span", { class: "leader-msg__quote-mark", "aria-hidden": "true" }, "“"),
-        el("p", { class: "leader-msg__text" }, m.body || ""),
-        el("div", { class: "leader-msg__sign" },
-          el("span", { class: "leader-msg__sign-rule", "aria-hidden": "true" }),
-          el("span", { class: "leader-msg__name" }, m.name || ""),
-          m.title ? el("span", { class: "leader-msg__title" }, m.title) : null
-        )
+        el("p", { class: "leader-msg__text" }, m.body || "")
       );
 
       const card = el("article", { class: "leader-msg", dataset: { leaderId: m.id || "" } }, cover, body);
