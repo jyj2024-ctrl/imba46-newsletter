@@ -11,8 +11,6 @@ window.NEWSLETTER_DATA = window.NEWSLETTER_DATA || {};
 window.NEWSLETTER_DATA.leadershipMessages = [
   {
     id: "rep",
-    role: "기대표",
-    roleEn: "Class Representative",
     name: "신지윤",
     title: "성균관대 IMBA 46기 기대표",
     photo: "images/신지윤.jpg",
@@ -20,10 +18,8 @@ window.NEWSLETTER_DATA.leadershipMessages = [
   },
   {
     id: "advisor",
-    role: "자문단 회장",
-    roleEn: "Advisory Chair",
     name: "이승규",
-    title: "46기 자문단 회장",
+    title: "성균관대 IMBA 46기 자문단 회장",
     photo: "images/이승규.jpg",
     body: "먼저 46기 동기 여러분의 첫 학기 완주를 진심으로 축하드립니다.\n\n자문단을 맡고 있는 선배 기수의 한 사람으로서, 새로운 기수가 본인의 색을 만들어가는 모습을 지켜보는 일은 늘 큰 보람입니다. 본업과 학업을 병행하며 한 학기를 묵묵히 채워낸 여러분의 노력에 박수를 보냅니다.\n\nIMBA의 진짜 가치는 강의실 안의 지식보다, 끝나고 나서 곁에 남는 사람들에게 있다고 믿습니다. 자문단은 언제든 여러분의 든든한 백그라운드가 되겠습니다. 남은 여정도 응원합니다."
   }

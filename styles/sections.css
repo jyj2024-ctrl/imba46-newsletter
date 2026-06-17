@@ -645,20 +645,25 @@
   color: var(--ink-mute);
   letter-spacing: 0.04em;
 }
+.milestone-card__body {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  position: relative;
+}
 .milestone-card__name {
-  margin: 0 0 4px;
-  font-size: 16px;
+  margin: 0;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.015em;
   color: var(--ink);
-  position: relative;
 }
 .milestone-card__msg {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12.5px;
+  line-height: 1.45;
   color: var(--ink-mute);
-  position: relative;
 }
 .milestone-card__company {
   display: flex;
@@ -1280,23 +1285,6 @@ button.timeline__photo:focus-visible {
   gap: 4px;
   text-align: center;
 }
-.leader-msg__role-ko {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  font-variation-settings: "opsz" 144;
-}
-.leader-msg__role-en {
-  font-family: var(--font-mono);
-  font-style: normal;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent-ink);
-  font-weight: 600;
-}
 .leader-msg__speaker-name {
   font-family: var(--font-serif);
   font-size: 17px;
@@ -1396,7 +1384,6 @@ button.timeline__photo:focus-visible {
   .leader-msg__photo { width: 88px; height: 88px; }
   .leader-msg__photo--empty svg { width: 40px; height: 40px; }
   .leader-msg__role { align-items: flex-start; text-align: left; }
-  .leader-msg__role-ko { font-size: 18px; }
   .leader-msg__speaker-name { font-size: 16px; }
   .leader-msg__speaker-title { font-size: 11px; }
   .leader-msg__body { padding: 28px 24px 24px; }
@@ -1547,6 +1534,45 @@ button.timeline__photo:focus-visible {
   font-variation-settings: "opsz" 14;
 }
 
+/* 현물 패널 — 2열 그리드 (이름 + 품목을 한 줄에) */
+.sponsor-panel--inkind .sponsor-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+  padding: 14px 24px 20px;
+}
+.sponsor-card {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--sp-color) 5%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--sp-color) 60%, transparent);
+  border-radius: 0 6px 6px 0;
+  min-width: 0;
+}
+.sponsor-card__name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sponsor-card__item {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  font-variation-settings: "opsz" 14;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  flex: 1;
+}
+
 @media (max-width: 880px) {
   .sponsors-grid {
     grid-template-columns: 1fr;
@@ -1568,6 +1594,11 @@ button.timeline__photo:focus-visible {
   .sponsor-row__value {
     text-align: right;
     padding-left: 0;
+  }
+  .sponsor-panel--inkind .sponsor-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 12px 20px 16px;
   }
 }
 @media (max-width: 480px) {

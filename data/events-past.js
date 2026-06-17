@@ -185,8 +185,21 @@ window.NEWSLETTER_DATA.eventsPast = [
     date: "2026-06-13",
     title: "종강총회",
     location: "[맥썸]",
-    description: "맥섬에서 한 학기의 마침표를 함께 찍은 종강총회. 두 번째 학기 동안 쌓아온 추억을 함께 돌아보고, 다가올 방학과 새 학기를 향한 인사를 따뜻하게 주고받은 자리였습니다.",
-    image: "",
+    description: "한 학기의 마침표를 함께 찍은 종강총회. 두 번째 학기 동안 쌓아온 추억을 함께 돌아보고, 다가올 방학과 새 학기를 향한 인사를 따뜻하게 주고받은 자리였습니다.",
+    image: "images/종강총회0.JPEG",
+    gallery: [
+      "images/종강총회0.JPEG",
+      "images/종강총회1.JPEG",
+      "images/종강총회2.JPEG",
+      "images/종강총회3.JPEG",
+      "images/종강총회4.JPEG",
+      "images/종강총회5.JPEG",
+      "images/종강총회6.JPEG",
+      "images/종강총회7.JPEG",
+      "images/종강총회8.JPEG",
+      "images/종강총회9.JPEG",
+      "images/종강총회11.JPEG"
+    ],
     tags: ["종강총회"]
   }
 ];

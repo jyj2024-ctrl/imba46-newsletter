@@ -22,7 +22,10 @@ window.NEWSLETTER_DATA.sponsors = {
     { name: "자문단",         amount: 460000 },
     { name: "오지현",         amount: 460000 },
     { name: "고세진",         amount: 300000 },
-    { name: "이준선",         amount: 200046 }
+    { name: "이준선",         amount: 200046 },
+    { name: "김준표",         amount: 460000 },
+    { name: "김승인",         amount: 100000 },
+    { name: "이재웅",         amount: 460000 }
   ],
   inKind: [
     { name: "박병규",                  item: "골프공 1더즌" },

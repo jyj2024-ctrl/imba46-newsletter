@@ -212,8 +212,11 @@
           el("span", { class: "milestone-card__badge" }, ...badgeChildren),
           item.date ? el("time", { class: "milestone-card__date" }, formatDateKR(item.date)) : null
         ),
-        el("h3", { class: "milestone-card__name" }, item.name),
-        item.message ? el("p", { class: "milestone-card__msg" }, item.message) : null
+        el(
+          "div", { class: "milestone-card__body" },
+          el("h3", { class: "milestone-card__name" }, item.name),
+          item.message ? el("p", { class: "milestone-card__msg" }, item.message) : null
+        )
       );
       grid.appendChild(card);
     });
@@ -725,8 +728,6 @@
               })
             ),
         el("div", { class: "leader-msg__role" },
-          el("span", { class: "leader-msg__role-ko" }, m.role || ""),
-          m.roleEn ? el("em", { class: "leader-msg__role-en" }, m.roleEn) : null,
           m.name ? el("span", { class: "leader-msg__speaker-name" }, m.name) : null,
           m.title ? el("span", { class: "leader-msg__speaker-title" }, m.title) : null
         )
@@ -784,10 +785,9 @@
 
     // ─── 현물 찬조 패널 ───────────────────────────────
     const inKindRows = inKind.map((s) =>
-      el("li", { class: "sponsor-row" },
-        el("span", { class: "sponsor-row__name" }, s.name),
-        el("span", { class: "sponsor-row__sep", "aria-hidden": "true" }),
-        el("span", { class: "sponsor-row__value sponsor-row__value--item" }, s.item || "")
+      el("li", { class: "sponsor-card" },
+        el("span", { class: "sponsor-card__name" }, s.name),
+        el("span", { class: "sponsor-card__item" }, s.item || "")
       )
     );
     const inKindPanel = el("article", { class: "sponsor-panel sponsor-panel--inkind", dataset: { kind: "inkind" } },
