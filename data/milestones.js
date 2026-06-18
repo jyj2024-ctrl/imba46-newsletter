@@ -9,9 +9,10 @@ window.NEWSLETTER_DATA = window.NEWSLETTER_DATA || {};
 
 window.NEWSLETTER_DATA.milestones = {
   categories: [
-    { id: "job",     label: "이직", labelEn: "Job Change"  },
-    { id: "wedding", label: "결혼", labelEn: "Wedding"     },
-    { id: "birth",   label: "출산", labelEn: "New Arrival" }
+    { id: "job",       label: "이직", labelEn: "Job Change"  },
+    { id: "wedding",   label: "결혼", labelEn: "Wedding"     },
+    { id: "birth",     label: "출산", labelEn: "New Arrival" },
+    { id: "broadcast", label: "방송", labelEn: "On Air"      }
   ],
   items: [
     /* ───────── 이직 ───────── */
@@ -27,6 +28,16 @@ window.NEWSLETTER_DATA.milestones = {
     { category: "wedding", name: "박충혁", date: "", message: "6월 28일 결혼을 축하합니다" },
 
     /* ───────── 출산 ───────── */
-    { category: "birth", name: "문재웅", date: "", message: "1월에 첫째 공주님 출산을 축하합니다" }
+    { category: "birth", name: "문재웅", date: "", message: "1월에 첫째 공주님 출산을 축하합니다" },
+
+    /* ───────── 방송 ───────── */
+    {
+      category: "broadcast",
+      name: "안준영",
+      date: "",
+      message: "한국경제TV 〈몸쓸이야기〉 출연을 축하합니다",
+      photos: ["images/안준영.jpg", "images/안준영1.png"],
+      link: "https://youtu.be/NL55rSvLb6E?si=mD6jD8w7s6t0CEAs"
+    }
   ]
 };

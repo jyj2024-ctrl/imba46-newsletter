@@ -693,8 +693,59 @@
 [data-category="job"]       { --cat-color: #4A8B8F; }   /* teal */
 [data-category="wedding"]   { --cat-color: #FF8C66; }   /* coral */
 [data-category="birth"]     { --cat-color: #C97B9F; }   /* mauve rose */
+[data-category="broadcast"] { --cat-color: #5B7FB5; }   /* cobalt blue */
 [data-category="promotion"] { --cat-color: #D17B4A; }   /* terracotta */
 [data-category="funeral"]   { --cat-color: #6D5670; }   /* plum */
+
+/* 카드 row가 가장 키 큰 카드 높이에 맞춰 늘어나지 않도록 */
+.milestones-grid { align-items: start; }
+
+/* 방송 카드 — 메시지가 길어 한 줄에 들어가도록 폰트 살짝 축소 */
+.milestone-card[data-category="broadcast"] .milestone-card__name {
+  font-size: 14px;
+}
+.milestone-card[data-category="broadcast"] .milestone-card__msg {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* 방송 카드 액션 버튼 — 출연사진(라이트박스) · 영상보기(외부 링크) */
+.milestone-card__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.milestone-card__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--cat-color, var(--accent-deep));
+  background: color-mix(in srgb, var(--cat-color, var(--accent)) 14%, transparent);
+  border: none;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .2s var(--ease-out), color .2s var(--ease-out), transform .2s var(--ease-out);
+}
+.milestone-card__action:hover,
+.milestone-card__action:focus-visible {
+  background: var(--cat-color, var(--accent-deep));
+  color: #fff;
+  transform: translateY(-1px);
+  outline: none;
+}
+.milestone-card__action-icon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
 
 /* ============================================================
  *           02 — TIMELINE (행사 회고)
@@ -1505,6 +1556,38 @@ button.timeline__photo:focus-visible {
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.01em;
+}
+.sponsor-row__name--clickable {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  text-align: left;
+  color: var(--sp-color, var(--accent-deep));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--sp-color, var(--accent-deep)) 35%, transparent);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color .2s var(--ease-out), text-decoration-color .2s var(--ease-out);
+}
+.sponsor-row__name--clickable:hover,
+.sponsor-row__name--clickable:focus-visible {
+  text-decoration-color: var(--sp-color, var(--accent-deep));
+  outline: none;
+}
+.sponsor-panel__note {
+  margin: 0;
+  padding: 8px 24px 0;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
+.sponsor-panel__note::before {
+  content: "💡 ";
+  font-style: normal;
 }
 .sponsor-row__sep {
   display: block;

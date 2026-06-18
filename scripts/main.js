@@ -187,8 +187,47 @@
     const ICONS = {
       job: '<path d="M3.5 8h17v11.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 8V6.2A1.7 1.7 0 0 1 10.7 4.5h2.6A1.7 1.7 0 0 1 15 6.2V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3.5 12.5h17" stroke="currentColor" stroke-width="1.6"/>',
       wedding: '<path d="M12 20.6s-6.6-4.2-6.6-9.7c0-2.5 2-4.4 4.3-4.4 1.3 0 2.5.7 3.3 1.8.8-1.1 2-1.8 3.3-1.8 2.3 0 4.3 1.9 4.3 4.4 0 5.5-6.6 9.7-6.6 9.7z" fill="currentColor"/>',
-      birth: '<rect x="8" y="9.5" width="8" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="9.8" y="4.5" width="4.4" height="3.6" rx="0.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 13h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9.5 16h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+      birth: '<rect x="8" y="9.5" width="8" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="9.8" y="4.5" width="4.4" height="3.6" rx="0.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 13h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9.5 16h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      broadcast: '<rect x="3" y="7.5" width="18" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 3.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21.5h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
     };
+
+    function buildActions(item) {
+      const actions = [];
+      if (item.photos && item.photos.length) {
+        const btn = el("button", {
+          type: "button",
+          class: "milestone-card__action"
+        },
+          el("svg", {
+            class: "milestone-card__action-icon",
+            viewBox: "0 0 24 24",
+            "aria-hidden": "true",
+            html: '<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10.5" r="1.6" fill="currentColor"/><path d="M5 18l4.5-5 4 4 3-3 3 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+          }),
+          "출연사진"
+        );
+        btn.addEventListener("click", () => openLightbox(item.photos, 0, item.name || ""));
+        actions.push(btn);
+      }
+      if (item.link) {
+        actions.push(el("a", {
+            class: "milestone-card__action",
+            href: item.link,
+            target: "_blank",
+            rel: "noopener noreferrer"
+          },
+          el("svg", {
+            class: "milestone-card__action-icon",
+            viewBox: "0 0 24 24",
+            "aria-hidden": "true",
+            html: '<path d="M10 8 L16 12 L10 16 Z" fill="currentColor"/>'
+          }),
+          "영상보기"
+        ));
+      }
+      if (!actions.length) return null;
+      return el("div", { class: "milestone-card__actions" }, ...actions);
+    }
 
     sorted.forEach((item) => {
       const cat = categories.find((c) => c.id === item.category) || {};
@@ -210,7 +249,8 @@
         el(
           "div", { class: "milestone-card__head" },
           el("span", { class: "milestone-card__badge" }, ...badgeChildren),
-          item.date ? el("time", { class: "milestone-card__date" }, formatDateKR(item.date)) : null
+          item.date ? el("time", { class: "milestone-card__date" }, formatDateKR(item.date)) : null,
+          buildActions(item)
         ),
         el(
           "div", { class: "milestone-card__body" },
@@ -750,19 +790,39 @@
     const root = document.querySelector("[data-sponsors]");
     if (!root || !DATA.sponsors) return;
 
-    const { cash = [], inKind = [] } = DATA.sponsors;
+    const { cash = [], inKind = [], posters = {} } = DATA.sponsors;
 
     const cashTotal = cash.reduce((sum, s) => sum + (s.amount || 0), 0);
     const fmtKRW = (n) => new Intl.NumberFormat("ko-KR").format(n) + "원";
+    const isVideoFile = (p) => /\.(mp4|mov|webm|m4v)$/i.test(p);
 
     // ─── 현금 찬조 패널 ───────────────────────────────
-    const cashRows = cash.map((s) =>
-      el("li", { class: "sponsor-row" },
-        el("span", { class: "sponsor-row__name" }, s.name),
+    const cashRows = cash.map((s) => {
+      const poster = posters[s.name];
+      let nameNode;
+      if (poster) {
+        nameNode = el("button", {
+          type: "button",
+          class: "sponsor-row__name sponsor-row__name--clickable",
+          title: s.name + " 찬조 포스터 보기"
+        }, s.name);
+        nameNode.addEventListener("click", () => {
+          const title = s.name + " 찬조";
+          if (isVideoFile(poster)) {
+            openVideoLightbox(poster, title);
+          } else {
+            openLightbox([poster], 0, title);
+          }
+        });
+      } else {
+        nameNode = el("span", { class: "sponsor-row__name" }, s.name);
+      }
+      return el("li", { class: "sponsor-row" },
+        nameNode,
         el("span", { class: "sponsor-row__sep", "aria-hidden": "true" }),
         el("span", { class: "sponsor-row__value sponsor-row__value--amount" }, fmtKRW(s.amount || 0))
-      )
-    );
+      );
+    });
     const cashPanel = el("article", { class: "sponsor-panel sponsor-panel--cash", dataset: { kind: "cash" } },
       el("header", { class: "sponsor-panel__head" },
         el("span", { class: "sponsor-panel__badge" },
@@ -780,6 +840,7 @@
           el("span", { class: "sponsor-panel__total" }, "총 " + fmtKRW(cashTotal))
         )
       ),
+      el("p", { class: "sponsor-panel__note" }, "이름 클릭 시, 찬조 포스터 확인 가능"),
       el("ul", { class: "sponsor-list" }, ...cashRows)
     );
 

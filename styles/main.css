@@ -177,7 +177,7 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
 .section {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: clamp(72px, 10vw, 140px) var(--pad-page) clamp(56px, 8vw, 96px);
+  padding: clamp(44px, 6.5vw, 96px) var(--pad-page) clamp(32px, 5vw, 64px);
   position: relative;
 }
 
@@ -292,8 +292,8 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
     z-index: 60;
     display: inline-flex;
     align-items: center;
-    gap: 2px;
-    padding: 5px;
+    gap: 1px;
+    padding: 4px;
     background: rgba(26, 22, 20, 0.94);
     color: var(--bg-soft);
     border-radius: var(--radius-pill);
@@ -302,23 +302,23 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
     box-shadow:
       0 1px 0 rgba(255,197,61,0.2) inset,
       0 12px 32px -8px rgba(26,22,20,0.45);
-    max-width: calc(100vw - 28px);
+    max-width: calc(100vw - 16px);
   }
   .mobile-nav a {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 9px 13px;
+    gap: 3px;
+    padding: 7px 8px;
     border-radius: var(--radius-pill);
     color: var(--bg-soft);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     transition: background .25s var(--ease-out), color .25s var(--ease-out);
     white-space: nowrap;
   }
   .mobile-nav a .num {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 9px;
     color: var(--accent);
     opacity: 0.85;
     letter-spacing: 0.02em;
@@ -349,7 +349,22 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
   body { padding-bottom: 72px; }
 }
 
+@media (max-width: 480px) {
+  .mobile-nav a {
+    padding: 6px 7px;
+    font-size: 10.5px;
+    gap: 2px;
+  }
+  .mobile-nav a .num { font-size: 8.5px; }
+}
+
 @media (max-width: 380px) {
   .masthead__meta { display: none; }
-  .mobile-nav a { padding: 9px 10px; font-size: 11px; }
+  .mobile-nav a {
+    padding: 7px 8px;
+    font-size: 11px;
+    gap: 0;
+  }
+  /* 좁은 화면에서는 번호 숨기고 한글 레이블만 노출 */
+  .mobile-nav a .num { display: none; }
 }

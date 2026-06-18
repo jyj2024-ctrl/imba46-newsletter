@@ -8,7 +8,21 @@
 window.NEWSLETTER_DATA = window.NEWSLETTER_DATA || {};
 
 window.NEWSLETTER_DATA.sponsors = {
+  // 현금 찬조 이름 클릭 시 표시할 포스터(이미지/영상) 파일
+  posters: {
+    "황진엽": "images/찬조/462601-01_황진엽.PNG",
+    "이현영": "images/찬조/462601-06_이현영.png",
+    "이웅호": "images/찬조/462601-07_이웅호.png",
+    "주성배": "images/찬조/462601-08_주성배.png",
+    "이재웅": "images/찬조/462601-09_이재웅.png",
+    "고세진": "images/찬조/462601-10_고세진.png",
+    "자문단": "images/찬조/462601-11_자문단.mp4",
+    "김은정": "images/찬조/462601-12_김은정.png",
+    "오지현": "images/찬조/462601-13_오지현.png",
+    "김승인": "images/찬조/김승인.png"
+  },
   cash: [
+    { name: "황진엽", amount: 500046 },
     { name: "이현영", amount: 460000 },
     { name: "이웅호", amount: 460000 },
     { name: "자문단",         amount: 460000 },
@@ -23,9 +37,8 @@ window.NEWSLETTER_DATA.sponsors = {
     { name: "오지현",         amount: 460000 },
     { name: "고세진",         amount: 300000 },
     { name: "이준선",         amount: 200046 },
-    { name: "김준표",         amount: 460000 },
-    { name: "김승인",         amount: 100000 },
-    { name: "이재웅",         amount: 460000 }
+    { name: "자문단",         amount: 460000 },
+    { name: "김승인",         amount: 100000 }
   ],
   inKind: [
     { name: "박병규",                  item: "골프공 1더즌" },
