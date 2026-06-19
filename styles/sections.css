@@ -2304,6 +2304,7 @@ button.timeline__photo:focus-visible {
   /* Exec */
   .exec__lead-card { padding: 22px 22px 20px; }
   .exec__dept { padding: 20px 22px 18px; }
+  .exec__dept-headcard-name { font-size: 14px; white-space: nowrap; }
 
   /* Articles */
   .article { border-radius: 18px; }
@@ -2333,6 +2334,7 @@ button.timeline__photo:focus-visible {
   .hero__stats { grid-template-columns: 1fr; }
   .hero__stats .stat:last-child { grid-column: auto; }
   .filter-pill { padding: 6px 12px; font-size: 11px; }
+  .exec__dept-headcard-name { font-size: 13px; }
 }
 
 /* Reduced motion */
