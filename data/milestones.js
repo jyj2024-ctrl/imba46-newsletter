@@ -36,7 +36,7 @@ window.NEWSLETTER_DATA.milestones = {
       name: "안준영",
       date: "",
       message: "한국경제TV 〈몸쓸이야기〉 출연을 축하합니다",
-      photos: ["images/안준영.jpg", "images/안준영1.png"],
+      photos: ["images/안준영.jpg", "images/안준영1.jpg"],
       link: "https://youtu.be/NL55rSvLb6E?si=mD6jD8w7s6t0CEAs"
     }
   ]

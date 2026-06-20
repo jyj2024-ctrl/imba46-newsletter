@@ -41,11 +41,11 @@ window.NEWSLETTER_DATA.eventsPast = [
     title: "47기 OT",
     location: "[더플라자 호텔]",
     description: "더플라자 호텔에서 열린 47기 신입생 OT에 참석해 동연회 홍보와 축하 공연으로 새 식구들을 맞이했습니다. 행사 후에는 46기끼리 모여 단합의 뒷풀이로 늦은 밤까지 정을 나눴습니다.",
-    image: "images/47기 OT.png",
+    image: "images/47기 OT.jpg",
     gallery: [
-      "images/47기 OT.png",
-      "images/47기 OT2.png",
-      "images/47기 OT4.png",
+      "images/47기 OT.jpg",
+      "images/47기 OT2.jpg",
+      "images/47기 OT4.jpg",
       "images/47기 OT4.JPEG",
       "images/47기 OT5.JPEG"
     ],

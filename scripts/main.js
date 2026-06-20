@@ -362,7 +362,14 @@
 
   function ensureLightbox() {
     if (lightboxEl) return lightboxEl;
-    const img = el("img", { class: "lightbox__img", alt: "" });
+    const img = el("img", { class: "lightbox__img", alt: "", decoding: "async" });
+    img.addEventListener("load", () => {
+      lightboxEl.classList.remove("lightbox--loading");
+      preloadNeighbors(lbIndex);
+    });
+    img.addEventListener("error", () => {
+      lightboxEl.classList.remove("lightbox--loading");
+    });
     const video = el("video", {
       class: "lightbox__video",
       controls: "",
@@ -415,8 +422,11 @@
         html: '<path d="M9 4 L17 12 L9 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
       })
     );
+    const spinner = el("div", { class: "lightbox__spinner", "aria-hidden": "true" },
+      el("div", { class: "lightbox__spinner-ring" })
+    );
     const stage = el("div", { class: "lightbox__stage" },
-      img, video, videoError,
+      img, video, videoError, spinner,
       el("div", { class: "lightbox__meta" }, caption, counter)
     );
 
@@ -490,6 +500,37 @@
     }
   }
 
+  // Preload prev/next gallery images so left/right nav is instant
+  const lbPreloadCache = new Map();
+  function preloadNeighbors(centerIdx) {
+    if (!lbGallery || lbGallery.length < 2) return;
+    const n = lbGallery.length;
+    const targets = [
+      lbGallery[((centerIdx + 1) % n + n) % n],
+      lbGallery[((centerIdx - 1) % n + n) % n]
+    ];
+    targets.forEach((src) => {
+      if (!src || lbPreloadCache.has(src)) return;
+      const pre = new Image();
+      pre.decoding = "async";
+      pre.src = src;
+      lbPreloadCache.set(src, pre);
+    });
+  }
+
+  // Set a new source on the lightbox image with loading-state feedback.
+  // If the file is already in the browser cache (`complete && naturalWidth>0`),
+  // skip the spinner entirely so cached navigation feels instant.
+  function setLbImageSrc(img, src) {
+    img.src = src;
+    if (img.complete && img.naturalWidth > 0) {
+      lightboxEl.classList.remove("lightbox--loading");
+      preloadNeighbors(lbIndex);
+    } else {
+      lightboxEl.classList.add("lightbox--loading");
+    }
+  }
+
   function showLbIndex(idx) {
     if (!lbGallery.length) return;
     const n = lbGallery.length;
@@ -510,7 +551,7 @@
 
     lbSwapTimer = setTimeout(() => {
       lbSwapTimer = null;
-      img.src = lbGallery[next];
+      setLbImageSrc(img, lbGallery[next]);
       img.alt = lbTitle ? lbTitle + " (" + (next + 1) + "/" + n + ")" : "";
       img.classList.remove("is-leaving-left", "is-leaving-right");
       img.classList.add(direction === "right" ? "is-entering-right" : "is-entering-left");
@@ -545,7 +586,7 @@
     lb.classList.remove("lightbox--video", "lightbox--video-error");
     const img = lb.querySelector(".lightbox__img");
     img.classList.remove("is-leaving-left", "is-leaving-right", "is-entering-left", "is-entering-right");
-    img.src = lbGallery[lbIndex];
+    setLbImageSrc(img, lbGallery[lbIndex]);
     img.alt = lbTitle ? lbTitle + (lbGallery.length > 1 ? " (" + (lbIndex + 1) + "/" + lbGallery.length + ")" : "") : "";
     lb.querySelector(".lightbox__caption").textContent = lbTitle;
     updateLbCounter();
@@ -587,6 +628,7 @@
 
   function closeLightbox() {
     if (!lightboxEl) return;
+    lightboxEl.classList.remove("lightbox--loading");
     const v = lightboxEl.querySelector(".lightbox__video");
     if (v) { v.pause(); v.removeAttribute("src"); v.load(); }
     // Restore focus BEFORE setting aria-hidden to avoid "descendant retained focus" warning
@@ -648,21 +690,33 @@
           // Cover panel (left)
           el("div", { class: "article__cover" },
             el("div", { class: "article__number-row" },
-              el("span", null, "Essay"),
+              el("span", null, art.category || "Essay"),
               art.date ? el("span", null, art.date) : null
             ),
             el("div", { class: "article__num" }, art.number || ""),
             (art.author || art.affiliation)
               ? el("div", { class: "article__cover-byline" },
                   el("span", { class: "article__cover-byline-label" }, "Written by"),
-                  art.author ? el("span", { class: "article__cover-author" }, art.author) : null,
+                  art.author
+                    ? el("div", { class: "article__cover-author-row" },
+                        el("img", {
+                          class: "article__cover-author-photo",
+                          src: "images/" + art.author + ".jpg",
+                          alt: art.author + " 프로필 사진",
+                          loading: "lazy",
+                          onerror: function () { this.style.display = "none"; }
+                        }),
+                        el("span", { class: "article__cover-author" }, art.author)
+                      )
+                    : null,
                   art.affiliation ? el("span", { class: "article__cover-affiliation" }, art.affiliation) : null
                 )
               : null,
-            el("div", { class: "article__cover-meta" },
-              el("span", null, art.category || ""),
-              art.readingTime ? el("span", null, art.readingTime) : null
-            )
+            art.readingTime
+              ? el("div", { class: "article__cover-meta" },
+                  el("span", null, art.readingTime)
+                )
+              : null
           ),
           // Body (right)
           el("div", { class: "article__body" },

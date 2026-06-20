@@ -232,6 +232,35 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
   margin-right: 4px;
 }
 
+/* 섹션 상단 안내 문구 (예: 회고 섹션의 인터랙션 가이드) */
+.section__note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 24px;
+  padding: 12px 16px;
+  background: var(--accent-pale);
+  border: 1px solid color-mix(in srgb, var(--accent-deep) 22%, transparent);
+  border-radius: 12px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--accent-ink);
+  line-height: 1.5;
+}
+.section__note-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+@media (max-width: 560px) {
+  .section__note {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12.5px;
+    padding: 10px 14px;
+  }
+}
+
 /* ============================================================
  *  Reusable: Tag, Badge, Button
  * ============================================================ */

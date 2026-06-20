@@ -34,3 +34,9 @@ verify-*.png
 
 # Dev debug screenshots at repo root (Playwright/manual captures)
 /*.png
+
+# Local backups (original images before compression) — kept locally as safety net
+/_backups/
+
+# Image-processing scratch
+/_tmp_compress/
