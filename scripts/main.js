@@ -874,7 +874,10 @@
       return el("li", { class: "sponsor-row" },
         nameNode,
         el("span", { class: "sponsor-row__sep", "aria-hidden": "true" }),
-        el("span", { class: "sponsor-row__value sponsor-row__value--amount" }, fmtKRW(s.amount || 0))
+        el("span", { class: "sponsor-row__value sponsor-row__value--amount" },
+          fmtKRW(s.amount || 0),
+          s.note ? el("span", { class: "sponsor-row__note" }, s.note) : null
+        )
       );
     });
     const cashPanel = el("article", { class: "sponsor-panel sponsor-panel--cash", dataset: { kind: "cash" } },

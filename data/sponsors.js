@@ -31,7 +31,7 @@ window.NEWSLETTER_DATA.sponsors = {
     { name: "안준형", amount: 500000 },
     { name: "오지현", amount: 460000 },
     { name: "고세진", amount: 170000 },
-    { name: "김은정", amount: 500046 },
+    { name: "김은정", amount: 1000092, note: "(500,046원 × 2회)" },
     { name: "허석",           amount: 500000 },
     { name: "자문단",         amount: 460000 },
     { name: "오지현",         amount: 460000 },

@@ -1623,6 +1623,18 @@ button.timeline__photo:focus-visible {
   font-weight: 700;
   color: var(--sp-color);
   letter-spacing: 0.02em;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+.sponsor-row__note {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-mute);
+  white-space: nowrap;
 }
 .sponsor-row__value--item {
   font-style: italic;
